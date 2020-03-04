@@ -72,13 +72,9 @@ func main() {
 			log.WithError(jsonErr).Errorf("failed to marshal JSON: %v", ws)
 			continue
 		}
-		req, err := http.NewRequest(http.MethodPost,
-			controllerEndpoint,
-			// "https://n2mmzmrjb3.execute-api.ap-southeast-2.amazonaws.com/AddWorkload",
-			// "http://localhost:8080",
-			bytes.NewBuffer(jsonStr))
+		req, err := http.NewRequest(http.MethodPost, controllerEndpoint, bytes.NewBuffer(jsonStr))
 		if err != nil {
-			log.WithError(err).Errorf("request %+v failed", ws)
+			log.WithError(err).Errorf("request failed: '%+v'", ws)
 			continue
 		}
 		// Headers
