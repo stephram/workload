@@ -32,6 +32,7 @@ var (
 	messageTemplates string
 	storeIDs         string
 	keyStartID       int
+	awsProfile       string
 )
 
 func init() {
@@ -40,14 +41,18 @@ func init() {
 }
 
 func main() {
-	flag.IntVar(&numberOfMessages,
-		"number-of-messages",
-		10,
-		"Number of messages to generate")
+	flag.StringVar(&awsProfile,
+		"profile",
+		"innovation",
+		"AWS Profile name")
 	flag.StringVar(&queueUrl,
 		"queue-url",
 		"https://ap-southeast-2.queue.amazonaws.com/531004612469/api-pre-s2c-inbound",
 		"URL of the SQS queue to send messages to")
+	flag.IntVar(&numberOfMessages,
+		"number-of-messages",
+		10,
+		"Number of messages to generate")
 	flag.StringVar(&messageTemplates,
 		"message-templates",
 		// "/Users/sg/Dropbox (Personal)/API/s2c/aws2sap-dlq/15827625363.json",
@@ -68,7 +73,7 @@ func main() {
 	messageTmpls := parseCommaSeparatedFiles(messageTemplates)
 
 	sess, serr := session.NewSessionWithOptions(session.Options{
-		Profile: "innovation",
+		Profile: awsProfile,
 		Config: aws.Config{
 			Region: aws.String("ap-southeast-2"),
 		},
@@ -85,21 +90,18 @@ func main() {
 
 	for i := 1; i <= numberOfMessages; i++ {
 		// Read JSON template.
-		salesFile, _ := ioutil.ReadFile(selectRandomString(messageTmpls))
+		filename := selectRandomString(messageTmpls)
+		salesFile, _ := ioutil.ReadFile(filename)
 		var salesMap map[string]interface{}
 		jsonErr := json.Unmarshal([]byte(salesFile), &salesMap)
 		if jsonErr != nil {
-			log.WithError(jsonErr).Errorf("failed to unmarshal file to map")
+			log.WithError(jsonErr).Errorf("failed to unmarshal file to map: %s", filename)
 			return
 		}
 
-		// Read Store Number
+		// Data setup.
 		storeNumber := selectRandomString(storeNumbers)
-
-		// trsKey := ulid.New()
-		// trsKey = trsKey[len(trsKey)-12:]
 		trsKey := strconv.FormatInt(int64(keyID), 10)
-
 		messageHeader := uuid.New().String()
 		generateSale(trsKey, storeNumber, messageHeader, salesMap)
 
@@ -140,16 +142,7 @@ func main() {
 }
 
 func parseCommaSeparatedFiles(commaSeparatedFilenames string) []string {
-	var s scanner.Scanner
-	s.Init(strings.NewReader(commaSeparatedFilenames))
-	//s.Whitespace = 1<<'\t' | 1<<'\n' | 1<<'\r' | 1<<' ' | 1<<','
-	// s.Whitespace = 1 << ','
-	s.Mode ^= 1<<'/' | 1<<' ' //| 1<<scanner.SkipComments // don't skip comments
-	stringSlice := []string{}
-
-	for tok := s.Scan(); tok != scanner.EOF; tok = s.Scan() {
-		stringSlice = append(stringSlice, s.TokenText())
-	}
+	var stringSlice []string
 	stringSlice = strings.Split(commaSeparatedFilenames, ",")
 	return stringSlice
 }
@@ -176,9 +169,10 @@ func sendMessage(sqsClient *sqs.SQS, sendMessageInput *sqs.SendMessageInput) {
 		log.WithError(err).Errorf("failed to send Message: ")
 		return
 	}
-	log.Infof("sent MessageId: %s, MessageHeader: %s, TRS_KEY: %s, SEQUENCE_NUMBER: %s",
+	log.Infof("sent MessageId: %s, MessageHeader: %s, STORE_REF: %s, TRS_KEY: %s, SEQUENCE_NUMBER: %s",
 		*sendMessageOutput.MessageId,
 		*sendMessageInput.MessageAttributes["MESSAGE_HEADER"].StringValue,
+		*sendMessageInput.MessageAttributes["STORE_REF"].StringValue,
 		*sendMessageInput.MessageAttributes["KEY_ID"].StringValue,
 		*sendMessageInput.MessageAttributes["SEQUENCE_NUMBER"].StringValue)
 
