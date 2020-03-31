@@ -7,8 +7,6 @@ import (
 	"math/rand"
 	"reflect"
 	"strconv"
-	"strings"
-	"text/scanner"
 	"time"
 	"workload/internal/utils"
 
@@ -69,8 +67,8 @@ func main() {
 
 	flag.Parse()
 
-	storeNumbers := parseCommaSeparatedStrings(storeIDs)
-	messageTmpls := parseCommaSeparatedFiles(messageTemplates)
+	storeNumbers := utils.ParseCommaSeparatedStrings(storeIDs)
+	messageTmpls := utils.ParseCommaSeparatedFiles(messageTemplates)
 
 	sess, serr := session.NewSessionWithOptions(session.Options{
 		Profile: awsProfile,
@@ -90,7 +88,7 @@ func main() {
 
 	for i := 1; i <= numberOfMessages; i++ {
 		// Read JSON template.
-		filename := selectRandomString(messageTmpls)
+		filename := utils.SelectRandomString(messageTmpls)
 		salesFile, _ := ioutil.ReadFile(filename)
 		var salesMap map[string]interface{}
 		jsonErr := json.Unmarshal([]byte(salesFile), &salesMap)
@@ -100,10 +98,10 @@ func main() {
 		}
 
 		// Data setup.
-		storeNumber := selectRandomString(storeNumbers)
+		storeNumber := utils.SelectRandomString(storeNumbers)
 		trsKey := strconv.FormatInt(int64(keyID), 10)
 		messageHeader := uuid.New().String()
-		generateSale(trsKey, storeNumber, messageHeader, salesMap)
+		updateSale(trsKey, storeNumber, messageHeader, salesMap)
 
 		jsonArr, jsonErr := json.Marshal(salesMap)
 		if jsonErr != nil {
@@ -141,28 +139,6 @@ func main() {
 	}
 }
 
-func parseCommaSeparatedFiles(commaSeparatedFilenames string) []string {
-	var stringSlice []string
-	stringSlice = strings.Split(commaSeparatedFilenames, ",")
-	return stringSlice
-}
-
-func parseCommaSeparatedStrings(commaSeparatedStrings string) []string {
-	var s scanner.Scanner
-	s.Init(strings.NewReader(commaSeparatedStrings))
-	s.Whitespace = 1<<'\t' | 1<<'\n' | 1<<'\r' | 1<<' ' | 1<<','
-	stringSlice := []string{}
-
-	for tok := s.Scan(); tok != scanner.EOF; tok = s.Scan() {
-		stringSlice = append(stringSlice, s.TokenText())
-	}
-	return stringSlice
-}
-
-func selectRandomString(stringValues []string) string {
-	return stringValues[rand.Intn(len(stringValues))]
-}
-
 func sendMessage(sqsClient *sqs.SQS, sendMessageInput *sqs.SendMessageInput) {
 	sendMessageOutput, err := sqsClient.SendMessage(sendMessageInput)
 	if err != nil {
@@ -178,7 +154,7 @@ func sendMessage(sqsClient *sqs.SQS, sendMessageInput *sqs.SendMessageInput) {
 
 }
 
-func generateSale(trsKey string, storeRef string, messageHeader string, salesMap map[string]interface{}) {
+func updateSale(trsKey string, storeRef string, messageHeader string, salesMap map[string]interface{}) {
 	salesMap["MessageHeader"] = messageHeader
 	salesMap["KeyID"] = trsKey
 	salesMap["SAPStoreReference"] = storeRef

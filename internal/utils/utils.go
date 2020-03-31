@@ -1,7 +1,10 @@
 package utils
 
 import (
+	"math/rand"
 	"os"
+	"strings"
+	"text/scanner"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -48,4 +51,30 @@ func setJSONLogFormat() {
 // GetLogger needs to be called once to ensure logrus is configured correctly.
 func GetLogger() *log.Logger {
 	return log.StandardLogger()
+}
+
+func ParseCommaSeparatedFiles(commaSeparatedFilenames string) []string {
+	var stringSlice []string
+	stringSlice = strings.Split(commaSeparatedFilenames, ",")
+	return stringSlice
+}
+
+func ParseCommaSeparatedStrings(commaSeparatedStrings string) []string {
+	var s scanner.Scanner
+	s.Init(strings.NewReader(commaSeparatedStrings))
+	s.Whitespace = 1<<'\t' | 1<<'\n' | 1<<'\r' | 1<<' ' | 1<<','
+	stringSlice := []string{}
+
+	for tok := s.Scan(); tok != scanner.EOF; tok = s.Scan() {
+		stringSlice = append(stringSlice, s.TokenText())
+	}
+	return stringSlice
+}
+
+func SelectRandomString(stringValues []string) string {
+	sLen := len(stringValues)
+	if sLen <= 0 {
+		return ""
+	}
+	return stringValues[rand.Intn(sLen)]
 }
