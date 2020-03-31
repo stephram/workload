@@ -3,10 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="1f7f73df-34c0-4bc4-ba0a-701fb11a97ee" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/message_generator/messages.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/message_generator/messages.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/utils/utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/utils/utils.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/utils/utils_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/utils/utils_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/messages_go" beforeDir="false" afterPath="$PROJECT_DIR$/messages_go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -72,7 +69,7 @@
       <recent name="$PROJECT_DIR$/cmd" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Test.TestSelectRandomString/select_from_empty_slice in workload/internal/utils">
+  <component name="RunManager" selected="Go Build.messages.go">
     <configuration name="controller.go" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="workload" />
       <working_directory value="$PROJECT_DIR$/" />
@@ -201,7 +198,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Reflecting over incoming transaction to update TRS_KEY and others." />
     <MESSAGE value="Tidy, and now logging Store number." />
-    <option name="LAST_COMMIT_MESSAGE" value="Tidy, and now logging Store number." />
+    <MESSAGE value="Refactoring&#10;- moved some funcs to utils package&#10;- added some utils tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactoring&#10;- moved some funcs to utils package&#10;- added some utils tests" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -229,10 +227,10 @@
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
     <state x="-1204" y="-111" key="#xdebugger.evaluate/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1583024155098" />
-    <state x="-1545" y="-187" key="CommitChangelistDialog2" timestamp="1585630337642">
+    <state x="-1545" y="-187" key="CommitChangelistDialog2" timestamp="1585693395545">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state x="-1545" y="-187" key="CommitChangelistDialog2/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1585630337642" />
+    <state x="-1545" y="-187" key="CommitChangelistDialog2/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1585693395545" />
     <state x="-2249" y="-122" key="EditFileWatcherDialog" timestamp="1585527657409">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
@@ -242,25 +240,25 @@
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
     <state x="-2174" y="-231" key="EnvironmentVariablesDialog/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1582965992081" />
-    <state width="1991" height="825" key="GridCell.Tab.0.bottom" timestamp="1585693325411">
+    <state width="1991" height="512" key="GridCell.Tab.0.bottom" timestamp="1585694553682">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state width="1991" height="825" key="GridCell.Tab.0.bottom/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1585693325411" />
+    <state width="1991" height="512" key="GridCell.Tab.0.bottom/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1585694553682" />
     <state width="1638" height="289" key="GridCell.Tab.0.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1583283213676" />
-    <state width="1991" height="825" key="GridCell.Tab.0.center" timestamp="1585693325410">
+    <state width="1991" height="512" key="GridCell.Tab.0.center" timestamp="1585694553681">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state width="1991" height="825" key="GridCell.Tab.0.center/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1585693325410" />
+    <state width="1991" height="512" key="GridCell.Tab.0.center/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1585694553681" />
     <state width="1638" height="289" key="GridCell.Tab.0.center/0.23.1680.1027@0.23.1680.1027" timestamp="1583283213673" />
-    <state width="1991" height="825" key="GridCell.Tab.0.left" timestamp="1585693325409">
+    <state width="1991" height="512" key="GridCell.Tab.0.left" timestamp="1585694553680">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state width="1991" height="825" key="GridCell.Tab.0.left/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1585693325409" />
+    <state width="1991" height="512" key="GridCell.Tab.0.left/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1585694553680" />
     <state width="1638" height="289" key="GridCell.Tab.0.left/0.23.1680.1027@0.23.1680.1027" timestamp="1583283213670" />
-    <state width="1991" height="825" key="GridCell.Tab.0.right" timestamp="1585693325410">
+    <state width="1991" height="512" key="GridCell.Tab.0.right" timestamp="1585694553681">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state width="1991" height="825" key="GridCell.Tab.0.right/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1585693325410" />
+    <state width="1991" height="512" key="GridCell.Tab.0.right/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1585694553681" />
     <state width="1638" height="289" key="GridCell.Tab.0.right/0.23.1680.1027@0.23.1680.1027" timestamp="1583283213674" />
     <state width="1991" height="825" key="GridCell.Tab.1.bottom" timestamp="1585693325412">
       <screen x="-3008" y="-619" width="3008" height="1669" />
@@ -307,16 +305,6 @@
           <url>file://$PROJECT_DIR$/cmd/message_generator/messages.go</url>
           <line>72</line>
           <option name="timeStamp" value="62" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/utils/utils_test.go</url>
-          <line>46</line>
-          <option name="timeStamp" value="65" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/utils/utils_test.go</url>
-          <line>65</line>
-          <option name="timeStamp" value="67" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
