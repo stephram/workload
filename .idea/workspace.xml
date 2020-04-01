@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1f7f73df-34c0-4bc4-ba0a-701fb11a97ee" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/cmd/message_generator/message_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/messages_go" beforeDir="false" afterPath="$PROJECT_DIR$/messages_go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/message_generator/messages.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/message_generator/messages.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,6 +16,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Go Application" />
+        <option value="Go File" />
       </list>
     </option>
   </component>
@@ -43,7 +45,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="DefaultGoTemplateProperty" value="Go Application" />
+    <property name="DefaultGoTemplateProperty" value="Go File" />
     <property name="GO_FMT" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -69,7 +71,7 @@
       <recent name="$PROJECT_DIR$/cmd" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Build.messages.go">
+  <component name="RunManager" selected="Go Test.TestCreateSendMessageIinput/Create_messages_from_test_files in workload/cmd/message_generator">
     <configuration name="controller.go" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="workload" />
       <working_directory value="$PROJECT_DIR$/" />
@@ -95,26 +97,26 @@
       <option name="run" value="false" />
       <method v="2" />
     </configuration>
-    <configuration name="TestParseCommaSeparatedFiles/test_for_correct_split in workload/internal/utils" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestCreateSendMessageIinput in workload/cmd/message_generator" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="workload" />
-      <working_directory value="$PROJECT_DIR$/internal/utils" />
+      <working_directory value="$PROJECT_DIR$/cmd/message_generator" />
       <framework value="gotest" />
       <kind value="PACKAGE" />
-      <package value="workload/internal/utils" />
+      <package value="workload/cmd/message_generator" />
       <directory value="$PROJECT_DIR$/" />
       <filePath value="$PROJECT_DIR$/" />
-      <pattern value="^TestParseCommaSeparatedFiles$/^test_for_correct_split$" />
+      <pattern value="^TestCreateSendMessageIinput$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestParseCommaSeparatedStrings in workload/internal/utils" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestCreateSendMessageIinput/Create_messages_from_test_files in workload/cmd/message_generator" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="workload" />
-      <working_directory value="$PROJECT_DIR$/internal/utils" />
+      <working_directory value="$PROJECT_DIR$/cmd/message_generator" />
       <framework value="gotest" />
       <kind value="PACKAGE" />
-      <package value="workload/internal/utils" />
+      <package value="workload/cmd/message_generator" />
       <directory value="$PROJECT_DIR$/" />
       <filePath value="$PROJECT_DIR$/" />
-      <pattern value="^TestParseCommaSeparatedStrings$" />
+      <pattern value="^TestCreateSendMessageIinput$/^Create_messages_from_test_files$" />
       <method v="2" />
     </configuration>
     <configuration name="TestParseCommaSeparatedStrings/test_empty_element in workload/internal/utils" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -153,19 +155,19 @@
     <list>
       <item itemvalue="Go Build.controller.go" />
       <item itemvalue="Go Build.messages.go" />
-      <item itemvalue="Go Test.TestParseCommaSeparatedFiles/test_for_correct_split in workload/internal/utils" />
-      <item itemvalue="Go Test.TestParseCommaSeparatedStrings in workload/internal/utils" />
       <item itemvalue="Go Test.TestParseCommaSeparatedStrings/test_empty_element in workload/internal/utils" />
       <item itemvalue="Go Test.TestSelectRandomString in workload/internal/utils" />
       <item itemvalue="Go Test.TestSelectRandomString/select_from_empty_slice in workload/internal/utils" />
+      <item itemvalue="Go Test.TestCreateSendMessageIinput in workload/cmd/message_generator" />
+      <item itemvalue="Go Test.TestCreateSendMessageIinput/Create_messages_from_test_files in workload/cmd/message_generator" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Test.TestCreateSendMessageIinput/Create_messages_from_test_files in workload/cmd/message_generator" />
+        <item itemvalue="Go Test.TestCreateSendMessageIinput in workload/cmd/message_generator" />
         <item itemvalue="Go Test.TestSelectRandomString/select_from_empty_slice in workload/internal/utils" />
         <item itemvalue="Go Test.TestSelectRandomString in workload/internal/utils" />
         <item itemvalue="Go Test.TestParseCommaSeparatedStrings/test_empty_element in workload/internal/utils" />
-        <item itemvalue="Go Test.TestParseCommaSeparatedStrings in workload/internal/utils" />
-        <item itemvalue="Go Test.TestParseCommaSeparatedFiles/test_for_correct_split in workload/internal/utils" />
       </list>
     </recent_temporary>
   </component>
@@ -199,7 +201,9 @@
     <MESSAGE value="Reflecting over incoming transaction to update TRS_KEY and others." />
     <MESSAGE value="Tidy, and now logging Store number." />
     <MESSAGE value="Refactoring&#10;- moved some funcs to utils package&#10;- added some utils tests" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactoring&#10;- moved some funcs to utils package&#10;- added some utils tests" />
+    <MESSAGE value="Added Makefile&#10;- only applies to messages app" />
+    <MESSAGE value="Add test data with README." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add test data with README." />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -227,10 +231,10 @@
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
     <state x="-1204" y="-111" key="#xdebugger.evaluate/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1583024155098" />
-    <state x="-1545" y="-187" key="CommitChangelistDialog2" timestamp="1585693395545">
+    <state x="-1545" y="-187" key="CommitChangelistDialog2" timestamp="1585707374777">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state x="-1545" y="-187" key="CommitChangelistDialog2/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1585693395545" />
+    <state x="-1545" y="-187" key="CommitChangelistDialog2/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1585707374777" />
     <state x="-2249" y="-122" key="EditFileWatcherDialog" timestamp="1585527657409">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
@@ -240,45 +244,45 @@
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
     <state x="-2174" y="-231" key="EnvironmentVariablesDialog/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1582965992081" />
-    <state width="1991" height="512" key="GridCell.Tab.0.bottom" timestamp="1585694553682">
+    <state width="1991" height="825" key="GridCell.Tab.0.bottom" timestamp="1585711844080">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state width="1991" height="512" key="GridCell.Tab.0.bottom/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1585694553682" />
+    <state width="1991" height="825" key="GridCell.Tab.0.bottom/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1585711844080" />
     <state width="1638" height="289" key="GridCell.Tab.0.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1583283213676" />
-    <state width="1991" height="512" key="GridCell.Tab.0.center" timestamp="1585694553681">
+    <state width="1991" height="825" key="GridCell.Tab.0.center" timestamp="1585711844079">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state width="1991" height="512" key="GridCell.Tab.0.center/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1585694553681" />
+    <state width="1991" height="825" key="GridCell.Tab.0.center/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1585711844079" />
     <state width="1638" height="289" key="GridCell.Tab.0.center/0.23.1680.1027@0.23.1680.1027" timestamp="1583283213673" />
-    <state width="1991" height="512" key="GridCell.Tab.0.left" timestamp="1585694553680">
+    <state width="1991" height="825" key="GridCell.Tab.0.left" timestamp="1585711844077">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state width="1991" height="512" key="GridCell.Tab.0.left/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1585694553680" />
+    <state width="1991" height="825" key="GridCell.Tab.0.left/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1585711844077" />
     <state width="1638" height="289" key="GridCell.Tab.0.left/0.23.1680.1027@0.23.1680.1027" timestamp="1583283213670" />
-    <state width="1991" height="512" key="GridCell.Tab.0.right" timestamp="1585694553681">
+    <state width="1991" height="825" key="GridCell.Tab.0.right" timestamp="1585711844079">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state width="1991" height="512" key="GridCell.Tab.0.right/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1585694553681" />
+    <state width="1991" height="825" key="GridCell.Tab.0.right/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1585711844079" />
     <state width="1638" height="289" key="GridCell.Tab.0.right/0.23.1680.1027@0.23.1680.1027" timestamp="1583283213674" />
-    <state width="1991" height="825" key="GridCell.Tab.1.bottom" timestamp="1585693325412">
+    <state width="1991" height="825" key="GridCell.Tab.1.bottom" timestamp="1585711844081">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state width="1991" height="825" key="GridCell.Tab.1.bottom/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1585693325412" />
+    <state width="1991" height="825" key="GridCell.Tab.1.bottom/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1585711844081" />
     <state width="1638" height="335" key="GridCell.Tab.1.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1583122297143" />
-    <state width="1991" height="825" key="GridCell.Tab.1.center" timestamp="1585693325411">
+    <state width="1991" height="825" key="GridCell.Tab.1.center" timestamp="1585711844081">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state width="1991" height="825" key="GridCell.Tab.1.center/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1585693325411" />
+    <state width="1991" height="825" key="GridCell.Tab.1.center/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1585711844081" />
     <state width="1638" height="335" key="GridCell.Tab.1.center/0.23.1680.1027@0.23.1680.1027" timestamp="1583122297143" />
-    <state width="1991" height="825" key="GridCell.Tab.1.left" timestamp="1585693325411">
+    <state width="1991" height="825" key="GridCell.Tab.1.left" timestamp="1585711844080">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state width="1991" height="825" key="GridCell.Tab.1.left/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1585693325411" />
+    <state width="1991" height="825" key="GridCell.Tab.1.left/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1585711844080" />
     <state width="1638" height="335" key="GridCell.Tab.1.left/0.23.1680.1027@0.23.1680.1027" timestamp="1583122297142" />
-    <state width="1991" height="825" key="GridCell.Tab.1.right" timestamp="1585693325412">
+    <state width="1991" height="825" key="GridCell.Tab.1.right" timestamp="1585711844081">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state width="1991" height="825" key="GridCell.Tab.1.right/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1585693325412" />
+    <state width="1991" height="825" key="GridCell.Tab.1.right/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1585711844081" />
     <state width="1638" height="335" key="GridCell.Tab.1.right/0.23.1680.1027@0.23.1680.1027" timestamp="1583122297143" />
     <state x="428" y="398" key="Performance.Activity.Monitor" timestamp="1583105153593">
       <screen x="0" y="23" width="1680" height="1027" />

@@ -90,6 +90,7 @@ func main() {
 		// Read JSON template.
 		filename := utils.SelectRandomString(messageTmpls)
 		salesFile, _ := ioutil.ReadFile(filename)
+
 		var salesMap map[string]interface{}
 		jsonErr := json.Unmarshal([]byte(salesFile), &salesMap)
 		if jsonErr != nil {
@@ -101,42 +102,51 @@ func main() {
 		storeNumber := utils.SelectRandomString(storeNumbers)
 		trsKey := strconv.FormatInt(int64(keyID), 10)
 		messageHeader := uuid.New().String()
-		updateSale(trsKey, storeNumber, messageHeader, salesMap)
 
-		jsonArr, jsonErr := json.Marshal(salesMap)
-		if jsonErr != nil {
-			log.WithError(jsonErr).Errorf("failed to marshal message body: %+v", salesMap)
+		sendMessageInput, smErr := createSendMessageInput(salesMap, storeNumber, trsKey, messageHeader, i)
+		if smErr != nil {
+			log.WithError(smErr).Errorf("failed to createMessage with file: %s", filename)
 			continue
 		}
-		sendMessageInput := sqs.SendMessageInput{
-			MessageAttributes: map[string]*sqs.MessageAttributeValue{
-				"KEY_ID": &sqs.MessageAttributeValue{
-					DataType:    aws.String("String"),
-					StringValue: aws.String(trsKey),
-				},
-				"STORE_REF": &sqs.MessageAttributeValue{
-					DataType:    aws.String("String"),
-					StringValue: aws.String(storeNumber),
-				},
-				"TABLE_REF": &sqs.MessageAttributeValue{
-					DataType:    aws.String("String"),
-					StringValue: aws.String("sales"),
-				},
-				"MESSAGE_HEADER": &sqs.MessageAttributeValue{
-					DataType:    aws.String("String"),
-					StringValue: aws.String(messageHeader),
-				},
-				"SEQUENCE_NUMBER": &sqs.MessageAttributeValue{
-					DataType:    aws.String("String"),
-					StringValue: aws.String(strconv.Itoa(i)),
-				},
-			},
-			MessageBody: aws.String(string(jsonArr)),
-			QueueUrl:    aws.String(queueUrl),
-		}
-		sendMessage(svc, &sendMessageInput)
+		sendMessage(svc, sendMessageInput)
 		keyID++
 	}
+}
+
+func createSendMessageInput(salesMap map[string]interface{}, storeNumber, trsKey, messageHeader string, seqNum int) (*sqs.SendMessageInput, error) {
+	updateSale(trsKey, storeNumber, messageHeader, salesMap)
+
+	jsonArr, jsonErr := json.Marshal(salesMap)
+	if jsonErr != nil {
+		return nil, jsonErr
+	}
+	sendMessageInput := sqs.SendMessageInput{
+		MessageAttributes: map[string]*sqs.MessageAttributeValue{
+			"KEY_ID": &sqs.MessageAttributeValue{
+				DataType:    aws.String("String"),
+				StringValue: aws.String(trsKey),
+			},
+			"STORE_REF": &sqs.MessageAttributeValue{
+				DataType:    aws.String("String"),
+				StringValue: aws.String(storeNumber),
+			},
+			"TABLE_REF": &sqs.MessageAttributeValue{
+				DataType:    aws.String("String"),
+				StringValue: aws.String("sales"),
+			},
+			"MESSAGE_HEADER": &sqs.MessageAttributeValue{
+				DataType:    aws.String("String"),
+				StringValue: aws.String(messageHeader),
+			},
+			"SEQUENCE_NUMBER": &sqs.MessageAttributeValue{
+				DataType:    aws.String("String"),
+				StringValue: aws.String(strconv.Itoa(seqNum)),
+			},
+		},
+		MessageBody: aws.String(string(jsonArr)),
+		QueueUrl:    aws.String(queueUrl),
+	}
+	return &sendMessageInput, nil
 }
 
 func sendMessage(sqsClient *sqs.SQS, sendMessageInput *sqs.SendMessageInput) {
