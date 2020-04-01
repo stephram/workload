@@ -1,0 +1,50 @@
+{
+    "Records": [
+        {
+            "MessageId": "3f0d30ab-ecd0-4b02-9f61-8f445187db0b",
+            "ReceiptHandle": "AQEBxJmvFeWwUBsQk2XCRPwNNrcuLQ57ZbMWHJtPyiaatAr2+qeqprtSPFGQ6tknOVHZb+oq581zEVtsIPCNJyv6UyXXT7jXxwINymxQXSu1lxk6OsdMWsT01l2oCQlnnJLzgzikjgy/h+AOKUYx8yKuCUt/kFJT1OpMUZ8GHa9uiBOzn8M4nNd8tAg13uhnNPlXb4IUys8gg0FiwGd1uVDioCvHjCW3LVQ0CmXz7gYB5nsTYHiUHVO+pCGPEvKSGwzicygqBmJFbgNL1af2QcypDDxe6tgKCz3Q2MLfIe/Z+4xPIFi49AWCm39La7HrK0wYzFN1n+lSYUFqM59E1oSmWaYg4mPJt70sg9yvgkSbHzkLvGLNSqCCA67/5HD7AeuGMvbU4Rbhvmq59v73u3GYFw==",
+            "Body": "{\"MessageHeader\":\"4a251e1c-4a67-44b2-8e22-04171bdd39d4\",\"KeyID\":\"1808714\",\"ResponseId\":null,\"TimeToProcess\":0.053033699999999996,\"KeyCreated\":\"2020-03-30T16:16:50.93\",\"KeyLastTouch\":\"2020-03-30T16:16:55.4328336+11:00\",\"CreatedDateTime\":\"2020-03-30T16:16:55.4328336+11:00\",\"TableReference\":{\"BusinessObject\":\"sales\",\"TransactionType\":\"INSERT\",\"ReferenceKeyId\":1808714.0,\"ReferencePrimaryKey\":\"TRS_KEY\",\"IncludedTables\":[\"TLog010000ItemSale\",\"TLog030000Disc\",\"TLog040000Tender\",\"TLog050000TicketEnd\",\"TLog110000ItemSaleExt1\",\"TLog210000TicketStart\",\"TLog_Header\"]},\"SAPStoreReference\":\"A399\",\"PosDec\":\"0\",\"SourceData\":[[{\"TRS_KEY\":1808714.0,\"TRS_PTR\":664,\"PLUID\":782297030716.0,\"Ext11\":true,\"Subtract\":false,\"Cancel\":false,\"Negative\":false,\"FuelItemCancel\":false,\"StaffDiscAllow\":true,\"PriceOveride\":false,\"OnSale\":false,\"WSPriceOverride\":false,\"ManPrice\":false,\"ManPriceAllw\":false,\"NoManWgnt\":false,\"WgtItem\":false,\"DecItem\":false,\"Gallons\":false,\"ChainPrv\":false,\"NonMerch\":false,\"StoreCpn\":false,\"VendorCpn\":false,\"DiscAlw\":true,\"Scan\":false,\"ReadSrv\":null,\"NextInfo\":false,\"ReplUnknown\":false,\"GSTExclFollow\":false,\"PriceGrid\":false,\"DepID\":1100,\"MSU\":1,\"RetnID\":0,\"TaxF\":16,\"QTY\":1.0,\"Price\":5.0000,\"Amount\":5.0000,\"ExclPrice\":5.0000,\"ExclAmount\":4.5500,\"CaseQty\":false,\"TailFlags\":0,\"NoStockDeduct\":false,\"NoLoyaltyPoints\":false}],[{\"TRS_KEY\":1808714.0,\"TRS_PTR\":668,\"PLUID\":782297030716.0,\"DepID\":1100,\"InfoRec\":false,\"Subtract\":false,\"Cancel\":false,\"TtlTrsDisc\":false,\"PluDisc\":true,\"DepDisc\":false,\"DiscType\":61,\"DiscPercent\":0.0,\"TaxF\":16,\"QTY\":1,\"Reward\":-2.0000,\"TailFlags\":0,\"ExclAmount\":-1.8200,\"Multisaver\":false}],[{\"TRS_KEY\":1808714.0,\"TRS_PTR\":670,\"Opcode\":null,\"TndrID\":1,\"ChangeTndr\":false,\"Rounding\":true,\"Subtract\":false,\"Cancel\":false,\"WasCanceled\":false,\"ReturnFg\":false,\"Reward\":false,\"TndrXchng\":false,\"CashLift\":false,\"ConfSign\":false,\"ChrgPost\":false,\"ECCA\":false,\"ECCADef\":false,\"IssNumUse\":false,\"IssDtAccpt\":false,\"IssExpDtaccpt\":false,\"MCRUse\":false,\"AuthChk\":false,\"AuthNotDone\":false,\"UseAcct\":false,\"EFTPrint\":false,\"AuthAN\":false,\"Ext14\":false,\"AuthEFT\":false,\"CarInfo\":false,\"BuyAid\":false,\"ECCANew\":false,\"EFTAuth\":false,\"CouponSale\":false,\"CPRev\":false,\"Cashback\":false,\"AcctPmtRev\":false,\"TndrType\":1,\"Amount\":3.0000,\"FrgnAmt\":0.0000,\"FrgnRate\":0.0,\"IssDt\":\"0\",\"AcctNo\":\"0\",\"StateCd\":\"\",\"ExpDt\":\"0\",\"AuthNo\":\"0\",\"CrngID\":0,\"Ext4\":false,\"Ext3\":false,\"AcctLen\":0,\"InvRecall\":false,\"CrdtSale\":false,\"Ext2\":false,\"IssueNo\":0,\"QTY\":1,\"TailFlags\":0}],[{\"TRS_KEY\":1808714.0,\"TRS_PTR\":689,\"TicTtl\":true,\"VoidTic\":false,\"SaveTrs\":false,\"RclTrs\":false,\"DrvOff\":false,\"QuickStore\":false,\"InfGTtl\":false,\"TndrXchng\":false,\"CpnTic\":false,\"TndrTic\":false,\"IHPay\":false,\"IHPurch\":false,\"SendEmail\":false,\"TicetID\":2327,\"TaxVal\":0.2700,\"Items\":1,\"Amount\":3.0000,\"DiscAmt\":0.0000,\"AmountNT\":0.0000,\"DiscNT\":0.0000,\"GTtlAmt\":200239.1300,\"RetnID\":0,\"FSPmt\":0.0000,\"AmtEleCpn\":3.0000,\"ZCnt\":0,\"TailFlags\":0,\"MmbrFirst\":false}],[{\"TRS_KEY\":1808714.0,\"TRS_PTR\":665,\"TailFlags\":0,\"RRP\":9.5900,\"PriceType\":2,\"PromoID\":0}],[{\"TRS_KEY\":1808714.0,\"TRS_PTR\":662,\"StartTic\":true,\"NoSale\":false,\"SavedTrs\":false,\"RecallTrs\":false,\"PostVoid\":false,\"TndrPurch\":false,\"FreqShop\":false,\"AcctPmt\":false,\"AcctPmtRev\":false,\"RetnID\":0,\"TicketID\":2327,\"PVTicketID\":0,\"RecallTicketID\":0,\"MemberID\":\"\",\"RecallPosID\":0,\"LayByTic\":false,\"CustOrder\":false,\"ExternPos\":0,\"TicTicketID\":2327,\"TrsDateTime\":\"2020-03-30T16:15:21\",\"ReturnFg\":false,\"Training\":false,\"PCGen\":false,\"Offline\":false,\"VoidTrs\":false,\"BadRec\":false,\"CshrID\":88,\"PosID\":1,\"SeqNo\":1832}],[{\"TRS_KEY\":1808714.0,\"TER_ID\":1,\"TICKET_ID\":2327,\"WRK_DT\":null,\"TRS_PTR\":662,\"DATE_TIME\":\"2020-03-30T16:15:21\",\"TRS_TYPE\":0,\"END_PTR\":689}]],\"fromLocation\":{\"LocationType\":0,\"LocationIdentifier\":\"P399S001\"},\"toLocation\":{\"LocationType\":1,\"LocationIdentifier\":\"https://sqs.ap-southeast-2.amazonaws.com/531004612469/api-pre-s2c-inbound\"}}",
+            "Md5OfBody": "6c6284771e2f7db272a54516322ec6a3",
+            "Md5OfMessageAttributes": "3c36fa720ac50a3257fe8550ecc1dbe6",
+            "EventSourceArn": "arn:aws:sqs:ap-southeast-2:531004612469:api-pre-s2c-inbound",
+            "EventSource": "aws:sqs",
+            "AwsRegion": "ap-southeast-2",
+            "Attributes": {
+                "ApproximateReceiveCount": "1",
+                "SentTimestamp": "1585545416856",
+                "SenderId": "AIDAXXISXL527DWVM6RJ3",
+                "ApproximateFirstReceiveTimestamp": "1585545416862"
+            },
+            "MessageAttributes": {
+                "STORE_REF": {
+                    "StringValue": "A399",
+                    "BinaryValue": null,
+                    "StringListValues": [],
+                    "BinaryListValues": [],
+                    "DataType": "String"
+                },
+                "TABLE_REF": {
+                    "StringValue": "sales",
+                    "BinaryValue": null,
+                    "StringListValues": [],
+                    "BinaryListValues": [],
+                    "DataType": "String"
+                },
+                "KEY_ID": {
+                    "StringValue": "1808714",
+                    "BinaryValue": null,
+                    "StringListValues": [],
+                    "BinaryListValues": [],
+                    "DataType": "String"
+                },
+                "MESSAGE_HEADER": {
+                    "StringValue": "4a251e1c-4a67-44b2-8e22-04171bdd39d4",
+                    "BinaryValue": null,
+                    "StringListValues": [],
+                    "BinaryListValues": [],
+                    "DataType": "String"
+                }
+            }
+        }
+    ]
+}
