@@ -35,7 +35,7 @@ var (
 
 func init() {
 	rand.Seed(time.Now().Unix()) // initialize global pseudo random generator
-	utils.GetLogger().Infof("initialised logger")
+	utils.GetLogger()            //.Infof("initialised logger")
 }
 
 func main() {

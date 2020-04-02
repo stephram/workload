@@ -18,7 +18,7 @@ func init() {
 	case "json":
 		setJSONLogFormat()
 	default:
-		log.Printf("unknown LOG_FORMAT value: '%s'", fmt)
+		// log.Printf("unknown LOG_FORMAT value: '%s'", fmt)
 		setJSONLogFormat()
 		// setTextFormat()
 	}

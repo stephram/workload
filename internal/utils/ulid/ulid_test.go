@@ -1,7 +1,6 @@
 package ulid
 
 import (
-	"fmt"
 	"reflect"
 	"testing"
 
@@ -16,7 +15,6 @@ func TestUlidPackage(t *testing.T) {
 
 		require.NotNil(t, response)
 		require.True(t, len(response) > 0)
-		fmt.Println(reflect.TypeOf(response))
 		assert.IsType(t, reflect.TypeOf("").String(), response)
 	})
 
