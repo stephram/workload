@@ -47,14 +47,10 @@ func main() {
 	// Create client
 	client := &http.Client{}
 
-	var s scanner.Scanner
-	s.Init(strings.NewReader(storeNumbers))
-	s.Whitespace = 1<<'\t' | 1<<'\n' | 1<<'\r' | 1<<' ' | 1<<','
-
-	storeIDs := []string{}
-
-	for tok := s.Scan(); tok != scanner.EOF; tok = s.Scan() {
-		storeIDs = append(storeIDs, s.TokenText())
+	storeIDs, err := parseStoreNumbers(storeNumbers)
+	if err != nil {
+		log.WithError(err).Errorf("store numbers argument parsing failed")
+		return
 	}
 
 	workSpecs := []*workSpec{}
@@ -96,4 +92,17 @@ func main() {
 		// Display Result(s)
 		log.Infof("response Status : %s", resp.Status)
 	}
+}
+
+func parseStoreNumbers(storeNumbers string) ([]string, error) {
+	var s scanner.Scanner
+	s.Init(strings.NewReader(storeNumbers))
+	s.Whitespace = 1<<'\t' | 1<<'\n' | 1<<'\r' | 1<<' ' | 1<<','
+
+	storeIDs := []string{}
+
+	for tok := s.Scan(); tok != scanner.EOF; tok = s.Scan() {
+		storeIDs = append(storeIDs, s.TokenText())
+	}
+	return storeIDs, nil
 }

@@ -19,4 +19,13 @@ func TestUlidPackage(t *testing.T) {
 		fmt.Println(reflect.TypeOf(response))
 		assert.IsType(t, reflect.TypeOf("").String(), response)
 	})
+
+	t.Run("Valid Monotonic time", func(t *testing.T) {
+		response := NewTime()
+
+		require.NotNil(t, response)
+		require.True(t, len(response) > 0)
+		assert.Equal(t, reflect.String, reflect.TypeOf(response).Kind())
+		assert.IsType(t, reflect.TypeOf("").String(), response)
+	})
 }
