@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1f7f73df-34c0-4bc4-ba0a-701fb11a97ee" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/cmd/message_generator/message_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/message_generator/messages.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/message_generator/messages.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -203,7 +201,8 @@
     <MESSAGE value="Refactoring&#10;- moved some funcs to utils package&#10;- added some utils tests" />
     <MESSAGE value="Added Makefile&#10;- only applies to messages app" />
     <MESSAGE value="Add test data with README." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add test data with README." />
+    <MESSAGE value="Added test." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added test." />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -231,10 +230,10 @@
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
     <state x="-1204" y="-111" key="#xdebugger.evaluate/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1583024155098" />
-    <state x="-1545" y="-187" key="CommitChangelistDialog2" timestamp="1585707374777">
+    <state x="-1545" y="-187" key="CommitChangelistDialog2" timestamp="1585711864007">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state x="-1545" y="-187" key="CommitChangelistDialog2/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1585707374777" />
+    <state x="-1545" y="-187" key="CommitChangelistDialog2/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1585711864007" />
     <state x="-2249" y="-122" key="EditFileWatcherDialog" timestamp="1585527657409">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>

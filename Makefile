@@ -59,6 +59,7 @@ info:
 install:
 	go get -u github.com/sirupsen/logrus
 	go get -u github.com/oklog/ulid
+	go get -u github.com/aws/aws-sdk-go/...
 
 	# Install golangci-lint
 	# binary will be $(go env GOPATH)/bin/golangci-lint
@@ -66,7 +67,10 @@ install:
 	go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
 
 clean:
-	rm -rf $(BUILD_FOLDER)
+	@echo "Cleanup in progress"
+	@rm -rf $(BUILD_FOLDER)
+	@rm -f coverage.out
+	@rm -f coverage.html | echo "Cleanup complete"
 
 lint:
 	golangci-lint run ./cmd/... ./internal/...
@@ -80,6 +84,13 @@ $(TARGET) : $(SRC)
 
 build: $(TARGET)
 	@true
+
+test:
+	@echo "Starting tests"
+	go test ./... -v -cover -coverprofile=coverage.out
+	@echo "Tests complete"
+	go tool cover -html=coverage.out -o ./coverage.html
+	@echo "Coverage report written to coverage.html"
 
 run:
 	@find $(HOME) -name [aA-zZ]*.wav -exec $(BUILD_FOLDER)/$(APP_NAME) {} \;
