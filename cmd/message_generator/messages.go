@@ -2,7 +2,9 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"flag"
+	"fmt"
 	"io/ioutil"
 	"math/rand"
 	"reflect"
@@ -24,6 +26,14 @@ import (
 type SalesRecord struct {
 }
 
+type messageInfo struct {
+	Filename    string
+	StoreNumber string
+	KeyID       int
+	SeqNum      int
+	Mq          *sqs.SQS
+}
+
 var (
 	numberOfMessages int
 	queueUrl         string
@@ -41,11 +51,13 @@ func init() {
 func main() {
 	flag.StringVar(&awsProfile,
 		"profile",
-		"innovation",
+		// "innovation",
+		"api-dev",
 		"AWS Profile name")
 	flag.StringVar(&queueUrl,
 		"queue-url",
-		"https://ap-southeast-2.queue.amazonaws.com/531004612469/api-pre-s2c-inbound",
+		// "https://ap-southeast-2.queue.amazonaws.com/531004612469/api-pre-s2c-inbound",
+		"https://sqs.ap-southeast-2.amazonaws.com/712510509017/api-dev-s2c-inbound",
 		"URL of the SQS queue to send messages to")
 	flag.IntVar(&numberOfMessages,
 		"number-of-messages",
@@ -53,8 +65,7 @@ func main() {
 		"Number of messages to generate")
 	flag.StringVar(&messageTemplates,
 		"message-templates",
-		// "/Users/sg/Dropbox (Personal)/API/s2c/aws2sap-dlq/15827625363.json",
-		"/Users/sg/Dropbox (Personal)/API/s2c/aws2sap-dlq/1808221.json, /Users/sg/Dropbox (Personal)/API/s2c/aws2sap-dlq/15827625345.json",
+		"test-data/sales-messages/1808712-body.json, test-data/sales-messages/1808713-body.json",
 		"JSON message template(s), comma separated list of filenames")
 	flag.StringVar(&storeIDs,
 		"store-numbers",
@@ -83,33 +94,81 @@ func main() {
 		return
 	}
 	svc := sqs.New(sess)
-
 	keyID := keyStartID
+	taskInp := make(chan messageInfo, 20)
+	taskOut := make(chan string, 20)
+	numOfWorkers := 100
 
-	for i := 1; i <= numberOfMessages; i++ {
-		// Read JSON template.
-		filename := utils.SelectRandomString(messageTmpls)
-		salesFile, _ := ioutil.ReadFile(filename)
+	log.Infof("Creating worker %d tasks", numOfWorkers)
+	go createWorkerTasks(taskInp, taskOut, numOfWorkers)
 
-		var salesMap map[string]interface{}
-		jsonErr := json.Unmarshal([]byte(salesFile), &salesMap)
-		if jsonErr != nil {
-			log.WithError(jsonErr).Errorf("failed to unmarshal file to map: %s", filename)
-			return
+	log.Infof("Send %d messages", numberOfMessages)
+	go func() {
+		for seqNum := 1; seqNum <= numberOfMessages; seqNum++ {
+			mi := &messageInfo{
+				Filename:    utils.SelectRandomString(messageTmpls),
+				StoreNumber: utils.SelectRandomString(storeNumbers),
+				SeqNum:      seqNum,
+				KeyID:       keyID,
+				Mq:          svc,
+			}
+			taskInp <- *mi
+			keyID++
+			// time.Sleep(1 * time.Millisecond)
 		}
+	}()
 
-		// Data setup.
-		storeNumber := utils.SelectRandomString(storeNumbers)
-		trsKey := strconv.FormatInt(int64(keyID), 10)
-		messageHeader := uuid.New().String()
+	// Wait for all of the routines to finish.
+	log.Infof("Waiting for output")
+	for msgCount := 0; msgCount < numberOfMessages; msgCount++ {
+		s := <-taskOut
+		log.Infof("%s", s)
+	}
+}
 
-		sendMessageInput, smErr := createSendMessageInput(salesMap, storeNumber, trsKey, messageHeader, i)
-		if smErr != nil {
-			log.WithError(smErr).Errorf("failed to createMessage with file: %s", filename)
-			continue
-		}
-		sendMessage(svc, sendMessageInput)
-		keyID++
+func sendMessagesTask(taskInp <-chan messageInfo, taskOut chan<- string) {
+	for {
+		mi := <-taskInp
+		sendMessageTask(mi.Filename, mi.StoreNumber, mi.KeyID, mi.SeqNum, mi.Mq, taskOut)
+	}
+}
+
+func sendMessageTask(filename string, storeNumber string, keyID int, seqNum int, svc *sqs.SQS, taskOut chan<- string) {
+	// Read JSON template.
+	salesFile, _ := ioutil.ReadFile(filename)
+
+	var salesMap map[string]interface{}
+	jsonErr := json.Unmarshal([]byte(salesFile), &salesMap)
+	if jsonErr != nil {
+		taskOut <- fmt.Sprintf("%s. Failed to unmarshal file to map: %s", errors.Unwrap(jsonErr).Error(), filename)
+		return
+	}
+
+	// Data setup.
+	trsKey := strconv.FormatInt(int64(keyID), 10)
+	messageHeader := uuid.New().String()
+
+	sendMessageInput, cmErr := createSendMessageInput(salesMap, storeNumber, trsKey, messageHeader, seqNum)
+	if cmErr != nil {
+		taskOut <- fmt.Sprintf("%s. Failed to Create Message with file: %s", cmErr.Error(), filename)
+		return
+	}
+	sendMessageOutput, smErr := sendMessage(svc, sendMessageInput)
+	if smErr != nil {
+		taskOut <- fmt.Sprintf("%s. Failed to send message from file: %s", smErr.Error(), filename)
+		return
+	}
+	taskOut <- fmt.Sprintf("sent MessageId: %s, MessageHeader: %s, STORE_REF: %s, TRS_KEY: %s, SEQUENCE_NUMBER: %s",
+		*sendMessageOutput.MessageId,
+		*sendMessageInput.MessageAttributes["MESSAGE_HEADER"].StringValue,
+		*sendMessageInput.MessageAttributes["STORE_REF"].StringValue,
+		*sendMessageInput.MessageAttributes["KEY_ID"].StringValue,
+		*sendMessageInput.MessageAttributes["SEQUENCE_NUMBER"].StringValue)
+}
+
+func createWorkerTasks(taskInp <-chan messageInfo, taskOut chan<- string, taskCount int) {
+	for i := 0; i < taskCount; i++ {
+		go sendMessagesTask(taskInp, taskOut)
 	}
 }
 
@@ -149,19 +208,13 @@ func createSendMessageInput(salesMap map[string]interface{}, storeNumber, trsKey
 	return &sendMessageInput, nil
 }
 
-func sendMessage(sqsClient *sqs.SQS, sendMessageInput *sqs.SendMessageInput) {
+func sendMessage(sqsClient *sqs.SQS, sendMessageInput *sqs.SendMessageInput) (*sqs.SendMessageOutput, error) {
 	sendMessageOutput, err := sqsClient.SendMessage(sendMessageInput)
 	if err != nil {
-		log.WithError(err).Errorf("failed to send Message: ")
-		return
+		log.WithError(err).Errorf("failed to send Message: %v", sendMessageInput)
+		return nil, err
 	}
-	log.Infof("sent MessageId: %s, MessageHeader: %s, STORE_REF: %s, TRS_KEY: %s, SEQUENCE_NUMBER: %s",
-		*sendMessageOutput.MessageId,
-		*sendMessageInput.MessageAttributes["MESSAGE_HEADER"].StringValue,
-		*sendMessageInput.MessageAttributes["STORE_REF"].StringValue,
-		*sendMessageInput.MessageAttributes["KEY_ID"].StringValue,
-		*sendMessageInput.MessageAttributes["SEQUENCE_NUMBER"].StringValue)
-
+	return sendMessageOutput, nil
 }
 
 func updateSale(trsKey string, storeRef string, messageHeader string, salesMap map[string]interface{}) {
