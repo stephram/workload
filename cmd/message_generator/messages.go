@@ -7,8 +7,11 @@ import (
 	"fmt"
 	"io/ioutil"
 	"math/rand"
+	"os"
+	"path/filepath"
 	"reflect"
 	"strconv"
+	"strings"
 	"time"
 	"workload/internal/utils"
 
@@ -41,6 +44,7 @@ var (
 	storeIDs         string
 	keyStartID       int
 	awsProfile       string
+	wDir             string
 )
 
 func init() {
@@ -65,7 +69,7 @@ func main() {
 		"Number of messages to generate")
 	flag.StringVar(&messageTemplates,
 		"message-templates",
-		"test-data/sales-messages/1808712-body.json, test-data/sales-messages/1808713-body.json",
+		"test-data/sales-messages/1808712-body.json,test-data/sales-messages/1808713-body.json",
 		"JSON message template(s), comma separated list of filenames")
 	flag.StringVar(&storeIDs,
 		"store-numbers",
@@ -80,6 +84,7 @@ func main() {
 
 	storeNumbers := utils.ParseCommaSeparatedStrings(storeIDs)
 	messageTmpls := utils.ParseCommaSeparatedFiles(messageTemplates)
+	wDir, _ = os.Getwd()
 
 	sess, serr := session.NewSessionWithOptions(session.Options{
 		Profile: awsProfile,
@@ -103,26 +108,28 @@ func main() {
 	go createWorkerTasks(taskInp, taskOut, numOfWorkers)
 
 	log.Infof("Send %d messages", numberOfMessages)
-	go func() {
-		for seqNum := 1; seqNum <= numberOfMessages; seqNum++ {
-			mi := &messageInfo{
-				Filename:    utils.SelectRandomString(messageTmpls),
-				StoreNumber: utils.SelectRandomString(storeNumbers),
-				SeqNum:      seqNum,
-				KeyID:       keyID,
-				Mq:          svc,
-			}
-			taskInp <- *mi
-			keyID++
-			// time.Sleep(1 * time.Millisecond)
-		}
-	}()
+	go sendMessageTasks(messageTmpls, storeNumbers, keyID, svc, taskInp)
 
 	// Wait for all of the routines to finish.
 	log.Infof("Waiting for output")
 	for msgCount := 0; msgCount < numberOfMessages; msgCount++ {
 		s := <-taskOut
 		log.Infof("%s", s)
+	}
+}
+
+func sendMessageTasks(messageTmpls []string, storeNumbers []string, keyID int, svc *sqs.SQS, taskInp chan<- messageInfo) {
+	for seqNum := 1; seqNum <= numberOfMessages; seqNum++ {
+		mi := &messageInfo{
+			Filename:    utils.SelectRandomString(messageTmpls),
+			StoreNumber: utils.SelectRandomString(storeNumbers),
+			SeqNum:      seqNum,
+			KeyID:       keyID,
+			Mq:          svc,
+		}
+		taskInp <- *mi
+		keyID++
+		// time.Sleep(1 * time.Millisecond)
 	}
 }
 
@@ -135,7 +142,12 @@ func sendMessagesTask(taskInp <-chan messageInfo, taskOut chan<- string) {
 
 func sendMessageTask(filename string, storeNumber string, keyID int, seqNum int, svc *sqs.SQS, taskOut chan<- string) {
 	// Read JSON template.
-	salesFile, _ := ioutil.ReadFile(filename)
+	filename = wDir + string(filepath.Separator) + strings.TrimSpace(filename)
+	salesFile, fileErr := ioutil.ReadFile(filename)
+	if fileErr != nil {
+		taskOut <- fmt.Sprintf("%s. Failed to read file: %s from %s", errors.Unwrap(fileErr).Error(), filename, wDir)
+		return
+	}
 
 	var salesMap map[string]interface{}
 	jsonErr := json.Unmarshal([]byte(salesFile), &salesMap)

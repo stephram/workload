@@ -25,20 +25,12 @@
   <component name="GoLibraries">
     <option name="indexEntireGoPath" value="false" />
   </component>
-  <component name="IgnoredFileRootStore">
-    <option name="generatedRoots">
-      <set>
-        <option value="$PROJECT_DIR$/.idea" />
-      </set>
-    </option>
-  </component>
   <component name="ProjectId" id="1YPtrjDpUME0vQnnykOdnqqQM8b" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="autoscrollFromSource" value="true" />
     <option name="autoscrollToSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
@@ -84,7 +76,7 @@
       <module name="workload" />
       <working_directory value="$PROJECT_DIR$/" />
       <go_parameters value="-i -o ../../messages" />
-      <parameters value="--number-of-messages 10 --message-templates $PROJECT_DIR$/../prescription-body2.json --queue-url https://sqs.ap-southeast-2.amazonaws.com/712510509017/api-dev-s2c-inbound --profile api-dev" />
+      <parameters value="--number-of-messages 5 --queue-url https://sqs.ap-southeast-2.amazonaws.com/712510509017/api-dev-s2c-inbound --profile api-dev" />
       <envs>
         <env name="AWS_PROFILE" value="innovation" />
         <env name="AWS_REGION" value="ap-southeast-2" />
@@ -92,7 +84,6 @@
       <kind value="FILE" />
       <filePath value="$PROJECT_DIR$/cmd/message_generator/messages.go" />
       <output_directory value="$PROJECT_DIR$" />
-      <option name="run" value="false" />
       <method v="2" />
     </configuration>
     <configuration name="go test workload" type="GoTestRunConfiguration" factoryName="Go Test" nameIsGenerated="true">
@@ -112,33 +103,20 @@
       <item itemvalue="Go Test.go test workload" />
     </list>
   </component>
-  <component name="ServiceViewManager">
-    <option name="viewStates">
-      <list>
-        <serviceView>
-          <treeState>
-            <expand />
-            <select />
-          </treeState>
-        </serviceView>
-      </list>
-    </option>
-  </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="2" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Reflecting over incoming transaction to update TRS_KEY and others." />
@@ -147,10 +125,16 @@
     <MESSAGE value="Added Makefile&#10;- only applies to messages app" />
     <MESSAGE value="Add test data with README." />
     <MESSAGE value="Added test." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added test." />
+    <MESSAGE value="Achieve 410 TPS into dev SQS queue." />
+    <option name="LAST_COMMIT_MESSAGE" value="Achieve 410 TPS into dev SQS queue." />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
+    <environment>
+      <map>
+        <entry key="GOPROXY" value="direct" />
+      </map>
+    </environment>
     <proxy>direct</proxy>
   </component>
   <component name="WindowStateProjectService">
@@ -158,15 +142,15 @@
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
     <state x="-1367" y="-157" key="#GOROOT/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1583038148343" />
-    <state x="-1632" y="-284" width="1112" height="963" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1586269545279">
+    <state x="-1632" y="-284" width="1112" height="963" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1586579375673">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state x="-1632" y="-284" width="1112" height="963" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586269545279" />
+    <state x="-1632" y="-284" width="1112" height="963" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586579375673" />
     <state x="304" y="200" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1680.1027@0.23.1680.1027" timestamp="1583124499109" />
-    <state x="-1329" y="-50" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1586090585773">
+    <state x="-1329" y="-50" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1586575701172">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state x="-1329" y="-50" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586090585773" />
+    <state x="-1329" y="-50" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586575701172" />
     <state x="541" y="186" width="969" height="701" key="#go_build_s2cWorkload" timestamp="1582859720382">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
@@ -179,10 +163,10 @@
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
     <state x="-1199" y="333" key="#xdebugger.evaluate/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1585788008985" />
-    <state x="-1545" y="-187" key="CommitChangelistDialog2" timestamp="1585711864007">
+    <state x="-1545" y="-187" key="CommitChangelistDialog2" timestamp="1586271016182">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state x="-1545" y="-187" key="CommitChangelistDialog2/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1585711864007" />
+    <state x="-1545" y="-187" key="CommitChangelistDialog2/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586271016182" />
     <state x="-2249" y="-122" key="EditFileWatcherDialog" timestamp="1585527657409">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
@@ -192,45 +176,45 @@
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
     <state x="-2174" y="-231" key="EnvironmentVariablesDialog/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1582965992081" />
-    <state width="1914" height="512" key="GridCell.Tab.0.bottom" timestamp="1586270974098">
+    <state width="1914" height="565" key="GridCell.Tab.0.bottom" timestamp="1586579399537">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state width="1914" height="512" key="GridCell.Tab.0.bottom/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586270974098" />
+    <state width="1914" height="565" key="GridCell.Tab.0.bottom/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586579399537" />
     <state width="1638" height="289" key="GridCell.Tab.0.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1583283213676" />
-    <state width="1914" height="512" key="GridCell.Tab.0.center" timestamp="1586270974098">
+    <state width="1914" height="565" key="GridCell.Tab.0.center" timestamp="1586579399536">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state width="1914" height="512" key="GridCell.Tab.0.center/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586270974098" />
+    <state width="1914" height="565" key="GridCell.Tab.0.center/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586579399536" />
     <state width="1638" height="289" key="GridCell.Tab.0.center/0.23.1680.1027@0.23.1680.1027" timestamp="1583283213673" />
-    <state width="1914" height="512" key="GridCell.Tab.0.left" timestamp="1586270974097">
+    <state width="1914" height="565" key="GridCell.Tab.0.left" timestamp="1586579399534">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state width="1914" height="512" key="GridCell.Tab.0.left/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586270974097" />
+    <state width="1914" height="565" key="GridCell.Tab.0.left/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586579399534" />
     <state width="1638" height="289" key="GridCell.Tab.0.left/0.23.1680.1027@0.23.1680.1027" timestamp="1583283213670" />
-    <state width="1914" height="512" key="GridCell.Tab.0.right" timestamp="1586270974098">
+    <state width="1914" height="565" key="GridCell.Tab.0.right" timestamp="1586579399537">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state width="1914" height="512" key="GridCell.Tab.0.right/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586270974098" />
+    <state width="1914" height="565" key="GridCell.Tab.0.right/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586579399537" />
     <state width="1638" height="289" key="GridCell.Tab.0.right/0.23.1680.1027@0.23.1680.1027" timestamp="1583283213674" />
-    <state width="1914" height="565" key="GridCell.Tab.1.bottom" timestamp="1586269364629">
+    <state width="1914" height="565" key="GridCell.Tab.1.bottom" timestamp="1586579400184">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state width="1914" height="565" key="GridCell.Tab.1.bottom/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586269364629" />
+    <state width="1914" height="565" key="GridCell.Tab.1.bottom/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586579400184" />
     <state width="1638" height="335" key="GridCell.Tab.1.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1583122297143" />
-    <state width="1914" height="565" key="GridCell.Tab.1.center" timestamp="1586269364627">
+    <state width="1914" height="565" key="GridCell.Tab.1.center" timestamp="1586579400182">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state width="1914" height="565" key="GridCell.Tab.1.center/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586269364627" />
+    <state width="1914" height="565" key="GridCell.Tab.1.center/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586579400182" />
     <state width="1638" height="335" key="GridCell.Tab.1.center/0.23.1680.1027@0.23.1680.1027" timestamp="1583122297143" />
-    <state width="1914" height="565" key="GridCell.Tab.1.left" timestamp="1586269364626">
+    <state width="1914" height="565" key="GridCell.Tab.1.left" timestamp="1586579400182">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state width="1914" height="565" key="GridCell.Tab.1.left/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586269364626" />
+    <state width="1914" height="565" key="GridCell.Tab.1.left/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586579400182" />
     <state width="1638" height="335" key="GridCell.Tab.1.left/0.23.1680.1027@0.23.1680.1027" timestamp="1583122297142" />
-    <state width="1914" height="565" key="GridCell.Tab.1.right" timestamp="1586269364628">
+    <state width="1914" height="565" key="GridCell.Tab.1.right" timestamp="1586579400183">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state width="1914" height="565" key="GridCell.Tab.1.right/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586269364628" />
+    <state width="1914" height="565" key="GridCell.Tab.1.right/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586579400183" />
     <state width="1638" height="335" key="GridCell.Tab.1.right/0.23.1680.1027@0.23.1680.1027" timestamp="1583122297143" />
     <state x="428" y="398" key="Performance.Activity.Monitor" timestamp="1583105153593">
       <screen x="0" y="23" width="1680" height="1027" />
@@ -260,8 +244,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/cmd/message_generator/messages.go</url>
-          <line>70</line>
-          <option name="timeStamp" value="74" />
+          <line>145</line>
+          <option name="timeStamp" value="76" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/cmd/message_generator/messages.go</url>
+          <line>123</line>
+          <option name="timeStamp" value="77" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
