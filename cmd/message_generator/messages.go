@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"errors"
-	"flag"
 	"fmt"
 	"io/ioutil"
 	"math/rand"
@@ -14,6 +13,8 @@ import (
 	"strings"
 	"time"
 	"workload/internal/utils"
+
+	"gopkg.in/alecthomas/kingpin.v2"
 
 	"github.com/google/uuid"
 
@@ -38,13 +39,19 @@ type messageInfo struct {
 }
 
 var (
-	numberOfMessages int
-	queueUrl         string
-	messageTemplates string
-	storeIDs         string
-	keyStartID       int
-	awsProfile       string
-	wDir             string
+	numberOfMessages = kingpin.Flag("number-of-messages", "Number of messages to send").Default(
+		"5").Short('n').Int()
+	queueUrl = kingpin.Flag("queue-url", "URL of the SQS queue").Default(
+		"https://sqs.ap-southeast-2.amazonaws.com/712510509017/api-dev-s2c-inbound").Short('q').String()
+	messageTemplates = kingpin.Flag("message-templates", "Filenames containing payloads to use as templates").Default(
+		"test-data/sales-messages/1808712-body.json", "test-data/sales-messages/1808713-body.json").Strings()
+	storeIDs = kingpin.Flag("store-numbers", "Store numbers use").Short('s').Default(
+		"A399", "A301").Strings()
+	keyStartID = kingpin.Flag("key-start-id", "Reference key start index").Short('k').Default(
+		"333000").Int()
+	numberOfWorkers = kingpin.Flag("number-of-workers", "Number of workers").Short('w').Default("100").Int()
+	awsProfile      = kingpin.Flag("profile", "AWS profile name").Short('p').Default("api-dev").String()
+	wDir            string
 )
 
 func init() {
@@ -53,41 +60,14 @@ func init() {
 }
 
 func main() {
-	flag.StringVar(&awsProfile,
-		"profile",
-		// "innovation",
-		"api-dev",
-		"AWS Profile name")
-	flag.StringVar(&queueUrl,
-		"queue-url",
-		// "https://ap-southeast-2.queue.amazonaws.com/531004612469/api-pre-s2c-inbound",
-		"https://sqs.ap-southeast-2.amazonaws.com/712510509017/api-dev-s2c-inbound",
-		"URL of the SQS queue to send messages to")
-	flag.IntVar(&numberOfMessages,
-		"number-of-messages",
-		10,
-		"Number of messages to generate")
-	flag.StringVar(&messageTemplates,
-		"message-templates",
-		"test-data/sales-messages/1808712-body.json,test-data/sales-messages/1808713-body.json",
-		"JSON message template(s), comma separated list of filenames")
-	flag.StringVar(&storeIDs,
-		"store-numbers",
-		"A399, A301",
-		"Comma separated store numbers")
-	flag.IntVar(&keyStartID,
-		"key-start-id",
-		333000,
-		"Start ID for TRS_KEY")
+	kingpin.Parse()
 
-	flag.Parse()
-
-	storeNumbers := utils.ParseCommaSeparatedStrings(storeIDs)
-	messageTmpls := utils.ParseCommaSeparatedFiles(messageTemplates)
+	storeNumbers := *storeIDs
+	messageTmpls := *messageTemplates
 	wDir, _ = os.Getwd()
 
 	sess, serr := session.NewSessionWithOptions(session.Options{
-		Profile: awsProfile,
+		Profile: *awsProfile,
 		Config: aws.Config{
 			Region: aws.String("ap-southeast-2"),
 		},
@@ -99,27 +79,26 @@ func main() {
 		return
 	}
 	svc := sqs.New(sess)
-	keyID := keyStartID
+	keyID := *keyStartID
 	taskInp := make(chan messageInfo, 20)
 	taskOut := make(chan string, 20)
-	numOfWorkers := 100
 
-	log.Infof("Creating worker %d tasks", numOfWorkers)
-	go createWorkerTasks(taskInp, taskOut, numOfWorkers)
+	log.Infof("Creating worker %d tasks", *numberOfWorkers)
+	go createWorkerTasks(taskInp, taskOut, *numberOfWorkers)
 
-	log.Infof("Send %d messages", numberOfMessages)
+	log.Infof("Send %d messages", *numberOfMessages)
 	go sendMessageTasks(messageTmpls, storeNumbers, keyID, svc, taskInp)
 
 	// Wait for all of the routines to finish.
 	log.Infof("Waiting for output")
-	for msgCount := 0; msgCount < numberOfMessages; msgCount++ {
+	for msgCount := 0; msgCount < *numberOfMessages; msgCount++ {
 		s := <-taskOut
 		log.Infof("%s", s)
 	}
 }
 
 func sendMessageTasks(messageTmpls []string, storeNumbers []string, keyID int, svc *sqs.SQS, taskInp chan<- messageInfo) {
-	for seqNum := 1; seqNum <= numberOfMessages; seqNum++ {
+	for seqNum := 1; seqNum <= *numberOfMessages; seqNum++ {
 		mi := &messageInfo{
 			Filename:    utils.SelectRandomString(messageTmpls),
 			StoreNumber: utils.SelectRandomString(storeNumbers),
@@ -215,7 +194,7 @@ func createSendMessageInput(salesMap map[string]interface{}, storeNumber, trsKey
 			},
 		},
 		MessageBody: aws.String(string(jsonArr)),
-		QueueUrl:    aws.String(queueUrl),
+		QueueUrl:    aws.String(*queueUrl),
 	}
 	return &sendMessageInput, nil
 }

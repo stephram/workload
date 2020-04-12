@@ -60,6 +60,7 @@ install:
 	go get -u github.com/sirupsen/logrus
 	go get -u github.com/oklog/ulid
 	go get -u github.com/aws/aws-sdk-go/...
+	go get -u gopkg.in/alecthomas/kingpin.v2
 
 	# Install golangci-lint
 	# binary will be $(go env GOPATH)/bin/golangci-lint
