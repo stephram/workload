@@ -28,8 +28,8 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-type SalesRecord struct {
-}
+// type SalesRecord struct {
+// }
 
 type messageInfo struct {
 	Filename    string
@@ -40,7 +40,7 @@ type messageInfo struct {
 }
 
 var (
-	app              = kingpin.New("messages", "S2C store side message generator for posting to SQS queue")
+	// app              = kingpin.New("messages", "S2C store side message generator for posting to SQS queue")
 	numberOfMessages = kingpin.Flag("number-of-messages", "Number of messages to send").Default(
 		"5").Short('n').Int()
 	queueUrl = kingpin.Flag("queue-url", "URL of the SQS queue").Default(
@@ -98,7 +98,7 @@ func main() {
 	fmt.Printf("%20s : %s\n", "queue-url", (*queueUrl).String())
 
 	fmt.Print("Press 'Enter' to continue...")
-	bufio.NewReader(os.Stdin).ReadBytes('\n')
+	bufio.NewReader(os.Stdin).ReadBytes('\n') // nolint
 
 	taskInp := make(chan messageInfo, 20)
 	taskOut := make(chan string, 20)
@@ -272,5 +272,5 @@ func updateTrsKeyFields(trsKey string, salesMap map[string]interface{}) {
 			sdimim["TRS_KEY"] = trsKey
 		}
 	}
-	return
+	return // nolint
 }

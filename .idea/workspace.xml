@@ -3,7 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="1f7f73df-34c0-4bc4-ba0a-701fb11a97ee" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmd/message_generator/messages.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/message_generator/messages.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/utils/utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/utils/utils.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -262,11 +265,6 @@
           <url>file://$PROJECT_DIR$/cmd/bot_controller/controller_test.go</url>
           <line>11</line>
           <option name="timeStamp" value="73" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/cmd/message_generator/messages.go</url>
-          <line>143</line>
-          <option name="timeStamp" value="76" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/cmd/message_generator/message_test.go</url>

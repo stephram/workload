@@ -99,23 +99,22 @@ Flags:
 ```
 $ ./messages -s A399 -s A301 -n 10 -t test-data/sales-messages/1808712-body.json -t test-data/sales-messages/1808713-body.json
   number-of-messages : 10
+   number-of-workers : 10
    message-templates : (2) [test-data/sales-messages/1808712-body.json test-data/sales-messages/1808713-body.json]
        store-numbers : (2) [A399 A301]
         key-start-id : 333000
            queue-url : https://sqs.ap-southeast-2.amazonaws.com/712510509017/api-dev-s2c-inbound
-   number-of-workers : 100
 Press 'Enter' to continue...
-{"level":"info","msg":"Creating worker 100 tasks","time":"2020-04-13T13:17:49+10:00"}
-{"level":"info","msg":"Send 10 messages","time":"2020-04-13T13:17:49+10:00"}
-{"level":"info","msg":"Waiting for output","time":"2020-04-13T13:17:49+10:00"}
-{"level":"info","msg":"sent MessageId: 75658f72-de97-4f8c-844d-98b852c0f901, MessageHeader: 2bc70631-5921-44d8-9699-3ada11099e5f, STORE_REF: A399, TRS_KEY: 333004, SEQUENCE_NUMBER: 5","time":"2020-04-13T13:17:50+10:00"}
-{"level":"info","msg":"sent MessageId: 490e9cf4-8712-4daa-ace9-1fd164bbf528, MessageHeader: e3cc9588-f047-4ff3-b14d-0d17d5632390, STORE_REF: A399, TRS_KEY: 333005, SEQUENCE_NUMBER: 6","time":"2020-04-13T13:17:50+10:00"}
-{"level":"info","msg":"sent MessageId: 416f82ce-b576-4818-9593-af6260564dd2, MessageHeader: 789aae4c-9554-4ed2-87a5-10fae98f117c, STORE_REF: A301, TRS_KEY: 333003, SEQUENCE_NUMBER: 4","time":"2020-04-13T13:17:50+10:00"}
-{"level":"info","msg":"sent MessageId: b79ba857-4f2a-4de9-987e-67ffa638a1e3, MessageHeader: 0d122e61-cbe5-4688-97a6-acd8307c3056, STORE_REF: A301, TRS_KEY: 333008, SEQUENCE_NUMBER: 9","time":"2020-04-13T13:17:50+10:00"}
-{"level":"info","msg":"sent MessageId: 5cdd8628-ffaa-46bd-a020-dcae4ae39a77, MessageHeader: 38c93be0-758a-40c9-aa19-825eea4a2d57, STORE_REF: A301, TRS_KEY: 333000, SEQUENCE_NUMBER: 1","time":"2020-04-13T13:17:50+10:00"}
-{"level":"info","msg":"sent MessageId: 9282d20b-049c-4f70-8b85-e0d88f6d6e90, MessageHeader: 3d202fa0-e8ae-43f5-a907-9d0374bb7c16, STORE_REF: A301, TRS_KEY: 333006, SEQUENCE_NUMBER: 7","time":"2020-04-13T13:17:50+10:00"}
-{"level":"info","msg":"sent MessageId: 379eb510-603a-4c57-b5f0-7e2b8ac5b377, MessageHeader: 59a3f856-d65d-46a4-92ae-64214e0d1acc, STORE_REF: A399, TRS_KEY: 333001, SEQUENCE_NUMBER: 2","time":"2020-04-13T13:17:50+10:00"}
-{"level":"info","msg":"sent MessageId: f9a8db30-247f-4add-8579-1b0ca60164c3, MessageHeader: e45fb08d-a27f-4aa6-8c1e-f5d82dbb55f9, STORE_REF: A301, TRS_KEY: 333009, SEQUENCE_NUMBER: 10","time":"2020-04-13T13:17:50+10:00"}
-{"level":"info","msg":"sent MessageId: ab9d91f5-c9fa-48b1-bc1b-9ded67a08426, MessageHeader: e9602a88-7c38-4f70-8247-9fad6f214267, STORE_REF: A399, TRS_KEY: 333007, SEQUENCE_NUMBER: 8","time":"2020-04-13T13:17:50+10:00"}
-{"level":"info","msg":"sent MessageId: 5ccab011-74e4-4386-a852-67e638422ad9, MessageHeader: 7085789e-af7f-44e6-9b06-469ced3c74b0, STORE_REF: A399, TRS_KEY: 333002, SEQUENCE_NUMBER: 3","time":"2020-04-13T13:17:50+10:00"}
-```
+{"level":"info","msg":"Creating worker 10 tasks","time":"2020-04-13T14:58:51+10:00"}
+{"level":"info","msg":"Send 10 messages","time":"2020-04-13T14:58:51+10:00"}
+{"level":"info","msg":"Waiting for output","time":"2020-04-13T14:58:51+10:00"}
+{"level":"info","msg":"sent MessageId: 3e2ea685-72c1-44a6-acc7-95b90e6cfaa2, MessageHeader: 6da35958-10fb-4578-86bc-49cd0bf48058, STORE_REF: A301, TRS_KEY: 333005, SEQUENCE_NUMBER: 6","time":"2020-04-13T14:58:51+10:00"}
+{"level":"info","msg":"sent MessageId: bad1d5fe-80eb-4082-ba63-790d67596d20, MessageHeader: ed8b4a07-8f50-46ef-9bd5-448892ee7205, STORE_REF: A301, TRS_KEY: 333008, SEQUENCE_NUMBER: 9","time":"2020-04-13T14:58:51+10:00"}
+{"level":"info","msg":"sent MessageId: 5d593a4c-1028-498c-867e-9fac54b87f4f, MessageHeader: 6c0a43b2-fe12-4cdd-a3b1-ab15df2f3e04, STORE_REF: A301, TRS_KEY: 333006, SEQUENCE_NUMBER: 7","time":"2020-04-13T14:58:51+10:00"}
+{"level":"info","msg":"sent MessageId: f324cf64-ba49-4d4e-b9c2-269596e5f358, MessageHeader: 2f9735b4-dfee-4a2e-a380-db1061573f73, STORE_REF: A399, TRS_KEY: 333003, SEQUENCE_NUMBER: 4","time":"2020-04-13T14:58:51+10:00"}
+{"level":"info","msg":"sent MessageId: 47660a36-0cd7-4249-a4da-b0f782157072, MessageHeader: c933921c-5ec6-450a-bf73-695f2078387f, STORE_REF: A399, TRS_KEY: 333002, SEQUENCE_NUMBER: 3","time":"2020-04-13T14:58:51+10:00"}
+{"level":"info","msg":"sent MessageId: a8571336-74d3-42e9-9ad2-64ef96591acc, MessageHeader: 8501b832-ff89-46dc-8f27-562a88b1e0c8, STORE_REF: A301, TRS_KEY: 333004, SEQUENCE_NUMBER: 5","time":"2020-04-13T14:58:51+10:00"}
+{"level":"info","msg":"sent MessageId: 2ba7f5fc-7b89-4e56-9cfe-9faf510519bd, MessageHeader: 2264b888-0f77-4706-9730-23051179232b, STORE_REF: A399, TRS_KEY: 333009, SEQUENCE_NUMBER: 10","time":"2020-04-13T14:58:51+10:00"}
+{"level":"info","msg":"sent MessageId: e5b10782-a67b-467b-a91d-d5ff9985d3ce, MessageHeader: 240f876c-7b27-4deb-9734-55287381dd0f, STORE_REF: A301, TRS_KEY: 333007, SEQUENCE_NUMBER: 8","time":"2020-04-13T14:58:51+10:00"}
+{"level":"info","msg":"sent MessageId: b3300ed6-01de-4786-b34c-b400c07e8185, MessageHeader: 65370761-a978-49b1-bc4d-6da8610587dd, STORE_REF: A301, TRS_KEY: 333000, SEQUENCE_NUMBER: 1","time":"2020-04-13T14:58:51+10:00"}
+{"level":"info","msg":"sent MessageId: 62a79112-4510-43a3-9fce-070a0d0a798e, MessageHeader: f2fd7416-8dcf-4b09-ac2e-bc70292a446c, STORE_REF: A399, TRS_KEY: 333001, SEQUENCE_NUMBER: 2","time":"2020-04-13T14:58:51+10:00"}```

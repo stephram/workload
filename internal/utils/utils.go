@@ -54,8 +54,7 @@ func GetLogger() *log.Logger {
 }
 
 func ParseCommaSeparatedFiles(commaSeparatedFilenames string) []string {
-	var stringSlice []string
-	stringSlice = strings.Split(commaSeparatedFilenames, ",")
+	stringSlice := strings.Split(commaSeparatedFilenames, ",")
 	return stringSlice
 }
 
