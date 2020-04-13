@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -39,15 +40,18 @@ type messageInfo struct {
 }
 
 var (
+	app              = kingpin.New("messages", "S2C store side message generator for posting to SQS queue")
 	numberOfMessages = kingpin.Flag("number-of-messages", "Number of messages to send").Default(
 		"5").Short('n').Int()
 	queueUrl = kingpin.Flag("queue-url", "URL of the SQS queue").Default(
-		"https://sqs.ap-southeast-2.amazonaws.com/712510509017/api-dev-s2c-inbound").Short('q').String()
-	messageTemplates = kingpin.Flag("message-templates", "Filenames containing payloads to use as templates").Default(
-		"test-data/sales-messages/1808712-body.json", "test-data/sales-messages/1808713-body.json").Strings()
-	storeIDs = kingpin.Flag("store-numbers", "Store numbers use").Short('s').Default(
+		"https://sqs.ap-southeast-2.amazonaws.com/712510509017/api-dev-s2c-inbound").Short('q').URL()
+	messageTemplates = kingpin.Flag("message-template", "Filenames containing payloads to use as templates").Short('t').Default(
+		"test-data/sales-messages/1808712-body.json",
+		"test-data/sales-messages/1808713-body.json",
+		"test-data/sales-messages/1808714-body.json").ExistingFiles()
+	storeIDs = kingpin.Flag("store-number", "Store numbers use").Short('s').Default(
 		"A399", "A301").Strings()
-	keyStartID = kingpin.Flag("key-start-id", "Reference key start index").Short('k').Default(
+	keyStartID = kingpin.Flag("key-start-id", "Reference key start index").Short('k').Short('k').Default(
 		"333000").Int()
 	numberOfWorkers = kingpin.Flag("number-of-workers", "Number of workers").Short('w').Default("100").Int()
 	awsProfile      = kingpin.Flag("profile", "AWS profile name").Short('p').Default("api-dev").String()
@@ -60,6 +64,7 @@ func init() {
 }
 
 func main() {
+	// kingpin.MustParse(app.Parse(os.Args[1:]))
 	kingpin.Parse()
 
 	storeNumbers := *storeIDs
@@ -80,6 +85,17 @@ func main() {
 	}
 	svc := sqs.New(sess)
 	keyID := *keyStartID
+
+	fmt.Printf("%20s : %d\n", "number-of-messages", *numberOfMessages)
+	fmt.Printf("%20s : (%d) %v\n", "message-templates", len(*messageTemplates), *messageTemplates)
+	fmt.Printf("%20s : (%d) %v\n", "store-numbers", len(storeNumbers), storeNumbers)
+	fmt.Printf("%20s : %d\n", "key-start-id", keyID)
+	fmt.Printf("%20s : %s\n", "queue-url", (*queueUrl).String())
+	fmt.Printf("%20s : %d\n", "number-of-workers", *numberOfWorkers)
+
+	fmt.Print("Press 'Enter' to continue...")
+	bufio.NewReader(os.Stdin).ReadBytes('\n')
+
 	taskInp := make(chan messageInfo, 20)
 	taskOut := make(chan string, 20)
 
@@ -108,7 +124,6 @@ func sendMessageTasks(messageTmpls []string, storeNumbers []string, keyID int, s
 		}
 		taskInp <- *mi
 		keyID++
-		// time.Sleep(1 * time.Millisecond)
 	}
 }
 
@@ -139,7 +154,7 @@ func sendMessageTask(filename string, storeNumber string, keyID int, seqNum int,
 	trsKey := strconv.FormatInt(int64(keyID), 10)
 	messageHeader := uuid.New().String()
 
-	sendMessageInput, cmErr := createSendMessageInput(salesMap, storeNumber, trsKey, messageHeader, seqNum)
+	sendMessageInput, cmErr := createSendMessageInput(salesMap, storeNumber, trsKey, messageHeader, seqNum, (*queueUrl).String())
 	if cmErr != nil {
 		taskOut <- fmt.Sprintf("%s. Failed to Create Message with file: %s", cmErr.Error(), filename)
 		return
@@ -163,7 +178,7 @@ func createWorkerTasks(taskInp <-chan messageInfo, taskOut chan<- string, taskCo
 	}
 }
 
-func createSendMessageInput(salesMap map[string]interface{}, storeNumber, trsKey, messageHeader string, seqNum int) (*sqs.SendMessageInput, error) {
+func createSendMessageInput(salesMap map[string]interface{}, storeNumber, trsKey, messageHeader string, seqNum int, queueURL string) (*sqs.SendMessageInput, error) {
 	updateSale(trsKey, storeNumber, messageHeader, salesMap)
 
 	jsonArr, jsonErr := json.Marshal(salesMap)
@@ -194,7 +209,7 @@ func createSendMessageInput(salesMap map[string]interface{}, storeNumber, trsKey
 			},
 		},
 		MessageBody: aws.String(string(jsonArr)),
-		QueueUrl:    aws.String(*queueUrl),
+		QueueUrl:    aws.String(queueURL),
 	}
 	return &sendMessageInput, nil
 }

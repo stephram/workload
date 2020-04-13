@@ -4,9 +4,10 @@
     <list default="true" id="1f7f73df-34c0-4bc4-ba0a-701fb11a97ee" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/message_generator/message_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/message_generator/message_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmd/message_generator/messages.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/message_generator/messages.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +65,7 @@
       <recent name="$PROJECT_DIR$/cmd" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Build.messages.go">
+  <component name="RunManager" selected="Go Test.TestCreateSendMessageIinput/Create_messages_from_test_files in workload/cmd/message_generator">
     <configuration name="controller.go" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="workload" />
       <working_directory value="$PROJECT_DIR$/" />
@@ -79,7 +80,7 @@
       <module name="workload" />
       <working_directory value="$PROJECT_DIR$/" />
       <go_parameters value="-i -o ../../messages" />
-      <parameters value="--number-of-messages 5 --queue-url https://sqs.ap-southeast-2.amazonaws.com/712510509017/api-dev-s2c-inbound --profile api-dev" />
+      <parameters value="--number-of-messages 5 --queue-url https://sqs.ap-southeast-2.amazonaws.com/712510509017/api-dev-s2c-inbound --message-templates test-data/sales-messages/1808712-body.json test-data/sales-messages/1808713-body.json --profile api-dev" />
       <envs>
         <env name="AWS_PROFILE" value="innovation" />
         <env name="AWS_REGION" value="ap-southeast-2" />
@@ -87,6 +88,17 @@
       <kind value="FILE" />
       <filePath value="$PROJECT_DIR$/cmd/message_generator/messages.go" />
       <output_directory value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestCreateSendMessageIinput/Create_messages_from_test_files in workload/cmd/message_generator" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="workload" />
+      <working_directory value="$PROJECT_DIR$/cmd/message_generator" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="workload/cmd/message_generator" />
+      <directory value="$PROJECT_DIR$/" />
+      <filePath value="$PROJECT_DIR$/" />
+      <pattern value="^TestCreateSendMessageIinput$/^Create_messages_from_test_files$" />
       <method v="2" />
     </configuration>
     <configuration name="go test workload" type="GoTestRunConfiguration" factoryName="Go Test" nameIsGenerated="true">
@@ -104,7 +116,13 @@
       <item itemvalue="Go Build.controller.go" />
       <item itemvalue="Go Build.messages.go" />
       <item itemvalue="Go Test.go test workload" />
+      <item itemvalue="Go Test.TestCreateSendMessageIinput/Create_messages_from_test_files in workload/cmd/message_generator" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Go Test.TestCreateSendMessageIinput/Create_messages_from_test_files in workload/cmd/message_generator" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="2" />
@@ -145,10 +163,10 @@
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
     <state x="-1367" y="-157" key="#GOROOT/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1583038148343" />
-    <state x="-2610" y="-222" width="1112" height="963" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1586678325741">
+    <state x="-2610" y="-222" width="1675" height="963" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1586745493661">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state x="-2610" y="-222" width="1112" height="963" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586678325741" />
+    <state x="-2610" y="-222" width="1675" height="963" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586745493661" />
     <state x="304" y="200" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1680.1027@0.23.1680.1027" timestamp="1583124499109" />
     <state x="-1329" y="-50" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1586575701172">
       <screen x="-3008" y="-619" width="3008" height="1669" />
@@ -183,45 +201,45 @@
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
     <state x="-2174" y="-231" key="EnvironmentVariablesDialog/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1582965992081" />
-    <state width="1914" height="565" key="GridCell.Tab.0.bottom" timestamp="1586678725026">
+    <state width="2690" height="565" key="GridCell.Tab.0.bottom" timestamp="1586748413461">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state width="1914" height="565" key="GridCell.Tab.0.bottom/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586678725026" />
+    <state width="2690" height="565" key="GridCell.Tab.0.bottom/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586748413461" />
     <state width="1638" height="289" key="GridCell.Tab.0.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1583283213676" />
-    <state width="1914" height="565" key="GridCell.Tab.0.center" timestamp="1586678725025">
+    <state width="2690" height="565" key="GridCell.Tab.0.center" timestamp="1586748413455">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state width="1914" height="565" key="GridCell.Tab.0.center/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586678725025" />
+    <state width="2690" height="565" key="GridCell.Tab.0.center/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586748413455" />
     <state width="1638" height="289" key="GridCell.Tab.0.center/0.23.1680.1027@0.23.1680.1027" timestamp="1583283213673" />
-    <state width="1914" height="565" key="GridCell.Tab.0.left" timestamp="1586678725025">
+    <state width="2690" height="565" key="GridCell.Tab.0.left" timestamp="1586748413454">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state width="1914" height="565" key="GridCell.Tab.0.left/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586678725025" />
+    <state width="2690" height="565" key="GridCell.Tab.0.left/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586748413454" />
     <state width="1638" height="289" key="GridCell.Tab.0.left/0.23.1680.1027@0.23.1680.1027" timestamp="1583283213670" />
-    <state width="1914" height="565" key="GridCell.Tab.0.right" timestamp="1586678725026">
+    <state width="2690" height="565" key="GridCell.Tab.0.right" timestamp="1586748413458">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state width="1914" height="565" key="GridCell.Tab.0.right/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586678725026" />
+    <state width="2690" height="565" key="GridCell.Tab.0.right/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586748413458" />
     <state width="1638" height="289" key="GridCell.Tab.0.right/0.23.1680.1027@0.23.1680.1027" timestamp="1583283213674" />
-    <state width="1914" height="565" key="GridCell.Tab.1.bottom" timestamp="1586678735140">
+    <state width="2690" height="565" key="GridCell.Tab.1.bottom" timestamp="1586748414464">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state width="1914" height="565" key="GridCell.Tab.1.bottom/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586678735140" />
+    <state width="2690" height="565" key="GridCell.Tab.1.bottom/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586748414464" />
     <state width="1638" height="335" key="GridCell.Tab.1.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1583122297143" />
-    <state width="1914" height="565" key="GridCell.Tab.1.center" timestamp="1586678735139">
+    <state width="2690" height="565" key="GridCell.Tab.1.center" timestamp="1586748414461">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state width="1914" height="565" key="GridCell.Tab.1.center/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586678735139" />
+    <state width="2690" height="565" key="GridCell.Tab.1.center/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586748414461" />
     <state width="1638" height="335" key="GridCell.Tab.1.center/0.23.1680.1027@0.23.1680.1027" timestamp="1583122297143" />
-    <state width="1914" height="565" key="GridCell.Tab.1.left" timestamp="1586678735139">
+    <state width="2690" height="565" key="GridCell.Tab.1.left" timestamp="1586748414458">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state width="1914" height="565" key="GridCell.Tab.1.left/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586678735139" />
+    <state width="2690" height="565" key="GridCell.Tab.1.left/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586748414458" />
     <state width="1638" height="335" key="GridCell.Tab.1.left/0.23.1680.1027@0.23.1680.1027" timestamp="1583122297142" />
-    <state width="1914" height="565" key="GridCell.Tab.1.right" timestamp="1586678735140">
+    <state width="2690" height="565" key="GridCell.Tab.1.right" timestamp="1586748414463">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state width="1914" height="565" key="GridCell.Tab.1.right/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586678735140" />
+    <state width="2690" height="565" key="GridCell.Tab.1.right/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586748414463" />
     <state width="1638" height="335" key="GridCell.Tab.1.right/0.23.1680.1027@0.23.1680.1027" timestamp="1583122297143" />
     <state x="428" y="398" key="Performance.Activity.Monitor" timestamp="1583105153593">
       <screen x="0" y="23" width="1680" height="1027" />
@@ -232,10 +250,10 @@
     </state>
     <state x="-2344" y="-372" key="SettingsEditor/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586240848740" />
     <state x="371" y="175" key="SettingsEditor/0.23.1680.1027@0.23.1680.1027" timestamp="1582858350104" />
-    <state width="976" height="823" key="XDebugger.FullValuePopup" timestamp="1586265835929">
+    <state width="976" height="823" key="XDebugger.FullValuePopup" timestamp="1586679666765">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state width="976" height="823" key="XDebugger.FullValuePopup/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586265835929" />
+    <state width="976" height="823" key="XDebugger.FullValuePopup/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586679666765" />
     <state x="-1491" y="-40" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1585629184179">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
@@ -251,18 +269,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/cmd/message_generator/messages.go</url>
-          <line>124</line>
+          <line>139</line>
           <option name="timeStamp" value="76" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/cmd/message_generator/messages.go</url>
-          <line>102</line>
-          <option name="timeStamp" value="77" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/cmd/message_generator/messages.go</url>
-          <line>86</line>
-          <option name="timeStamp" value="81" />
+          <url>file://$PROJECT_DIR$/cmd/message_generator/message_test.go</url>
+          <line>23</line>
+          <option name="timeStamp" value="83" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

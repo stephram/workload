@@ -21,7 +21,7 @@ SRC = $(shell find . -type f -name '*.go' -not -path "./vendor/*")
 
 HOME = $(shell echo $${HOME})
 
-BUILD_FOLDER = $(shell echo `pwd`/build)
+BUILD_FOLDER = $(shell echo `pwd`)
 
 # build variables
 BRANCH_NAME     ?= $(shell git rev-parse --abbrev-ref HEAD)

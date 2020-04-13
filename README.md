@@ -79,31 +79,43 @@ Coverage report written to coverage.html
 #### Usage:
 
 ```
-$ build/messages --help
-```
-Help output
-```
-Usage of build/messages:
-  -key-start-id int
-    	Start ID for TRS_KEY (default 333000)
-  -message-templates string
-    	JSON message template(s), comma separated list of filenames (default "/Users/sg/Dropbox (Personal)/API/s2c/aws2sap-dlq/1808221.json, /Users/sg/Dropbox (Personal)/API/s2c/aws2sap-dlq/15827625345.json")
-  -number-of-messages int
-    	Number of messages to generate (default 10)
-  -profile string
-    	AWS Profile name (default "innovation")
-  -queue-url string
-    	URL of the SQS queue to send messages to (default "https://ap-southeast-2.queue.amazonaws.com/531004612469/api-pre-s2c-inbound")
-  -store-numbers string
-    	Comma separated store numbers (default "A399, A301")
+$ ./messages --help
+usage: messages [<flags>]
+
+Flags:
+      --help                   Show context-sensitive help (also try --help-long and --help-man).
+  -n, --number-of-messages=5   Number of messages to send
+  -q, --queue-url=https://sqs.ap-southeast-2.amazonaws.com/712510509017/api-dev-s2c-inbound
+                               URL of the SQS queue
+  -t, --message-template=test-data/sales-messages/1808712-body.json... ...
+                               Filenames containing payloads to use as templates
+  -s, --store-number=A399... ...
+                               Store numbers use
+  -k, --key-start-id=333000    Reference key start index
+  -w, --number-of-workers=100  Number of workers
+  -p, --profile="api-dev"      AWS profile name
 ```
 #### Running
 ```
-$ ./messages_go  --number-of-messages 5000 --store-numbers "A338, A394, A415, A440, A515, A545" --key-start-id 335000 --message-templates /Users/sg/Development/api/s2c/prescription-body2.json
-{"level":"info","msg":"sent MessageId: bd83dd96-d74b-427b-8993-780f763186b5, MessageHeader: 5a6fbedd-9ce6-4ee2-a4c7-eafaee16396d, STORE_REF: A515, TRS_KEY: 335000, SEQUENCE_NUMBER: 1","time":"2020-03-31T17:19:14+11:00"}
-{"level":"info","msg":"sent MessageId: 9311181a-fb11-47ea-ab03-1f3d9b047bca, MessageHeader: a51a4346-2062-4c19-87ed-fad6307b559c, STORE_REF: A440, TRS_KEY: 335001, SEQUENCE_NUMBER: 2","time":"2020-03-31T17:19:14+11:00"}
-{"level":"info","msg":"sent MessageId: a7bd9334-d9ca-4521-b330-9c0cff95ec5f, MessageHeader: cdd0349b-2158-4234-a716-9b727f2e2279, STORE_REF: A338, TRS_KEY: 335002, SEQUENCE_NUMBER: 3","time":"2020-03-31T17:19:14+11:00"}
-{"level":"info","msg":"sent MessageId: 96735a6c-9ec9-4862-9a23-507d2c746365, MessageHeader: 1ff2416b-745a-4934-bf48-7ca01dd9f714, STORE_REF: A545, TRS_KEY: 335003, SEQUENCE_NUMBER: 4","time":"2020-03-31T17:19:14+11:00"}
-{"level":"info","msg":"sent MessageId: 1c638909-4815-4c43-a13c-0588aca6ca99, MessageHeader: fa27231d-c8cd-4a0e-9f02-df3d05ef7922, STORE_REF: A394, TRS_KEY: 335004, SEQUENCE_NUMBER: 5","time":"2020-03-31T17:19:14+11:00"}
-...
+$ ./messages -s A399 -s A301 -n 10 -t test-data/sales-messages/1808712-body.json -t test-data/sales-messages/1808713-body.json
+  number-of-messages : 10
+   message-templates : (2) [test-data/sales-messages/1808712-body.json test-data/sales-messages/1808713-body.json]
+       store-numbers : (2) [A399 A301]
+        key-start-id : 333000
+           queue-url : https://sqs.ap-southeast-2.amazonaws.com/712510509017/api-dev-s2c-inbound
+   number-of-workers : 100
+Press 'Enter' to continue...
+{"level":"info","msg":"Creating worker 100 tasks","time":"2020-04-13T13:17:49+10:00"}
+{"level":"info","msg":"Send 10 messages","time":"2020-04-13T13:17:49+10:00"}
+{"level":"info","msg":"Waiting for output","time":"2020-04-13T13:17:49+10:00"}
+{"level":"info","msg":"sent MessageId: 75658f72-de97-4f8c-844d-98b852c0f901, MessageHeader: 2bc70631-5921-44d8-9699-3ada11099e5f, STORE_REF: A399, TRS_KEY: 333004, SEQUENCE_NUMBER: 5","time":"2020-04-13T13:17:50+10:00"}
+{"level":"info","msg":"sent MessageId: 490e9cf4-8712-4daa-ace9-1fd164bbf528, MessageHeader: e3cc9588-f047-4ff3-b14d-0d17d5632390, STORE_REF: A399, TRS_KEY: 333005, SEQUENCE_NUMBER: 6","time":"2020-04-13T13:17:50+10:00"}
+{"level":"info","msg":"sent MessageId: 416f82ce-b576-4818-9593-af6260564dd2, MessageHeader: 789aae4c-9554-4ed2-87a5-10fae98f117c, STORE_REF: A301, TRS_KEY: 333003, SEQUENCE_NUMBER: 4","time":"2020-04-13T13:17:50+10:00"}
+{"level":"info","msg":"sent MessageId: b79ba857-4f2a-4de9-987e-67ffa638a1e3, MessageHeader: 0d122e61-cbe5-4688-97a6-acd8307c3056, STORE_REF: A301, TRS_KEY: 333008, SEQUENCE_NUMBER: 9","time":"2020-04-13T13:17:50+10:00"}
+{"level":"info","msg":"sent MessageId: 5cdd8628-ffaa-46bd-a020-dcae4ae39a77, MessageHeader: 38c93be0-758a-40c9-aa19-825eea4a2d57, STORE_REF: A301, TRS_KEY: 333000, SEQUENCE_NUMBER: 1","time":"2020-04-13T13:17:50+10:00"}
+{"level":"info","msg":"sent MessageId: 9282d20b-049c-4f70-8b85-e0d88f6d6e90, MessageHeader: 3d202fa0-e8ae-43f5-a907-9d0374bb7c16, STORE_REF: A301, TRS_KEY: 333006, SEQUENCE_NUMBER: 7","time":"2020-04-13T13:17:50+10:00"}
+{"level":"info","msg":"sent MessageId: 379eb510-603a-4c57-b5f0-7e2b8ac5b377, MessageHeader: 59a3f856-d65d-46a4-92ae-64214e0d1acc, STORE_REF: A399, TRS_KEY: 333001, SEQUENCE_NUMBER: 2","time":"2020-04-13T13:17:50+10:00"}
+{"level":"info","msg":"sent MessageId: f9a8db30-247f-4add-8579-1b0ca60164c3, MessageHeader: e45fb08d-a27f-4aa6-8c1e-f5d82dbb55f9, STORE_REF: A301, TRS_KEY: 333009, SEQUENCE_NUMBER: 10","time":"2020-04-13T13:17:50+10:00"}
+{"level":"info","msg":"sent MessageId: ab9d91f5-c9fa-48b1-bc1b-9ded67a08426, MessageHeader: e9602a88-7c38-4f70-8247-9fad6f214267, STORE_REF: A399, TRS_KEY: 333007, SEQUENCE_NUMBER: 8","time":"2020-04-13T13:17:50+10:00"}
+{"level":"info","msg":"sent MessageId: 5ccab011-74e4-4386-a852-67e638422ad9, MessageHeader: 7085789e-af7f-44e6-9b06-469ced3c74b0, STORE_REF: A399, TRS_KEY: 333002, SEQUENCE_NUMBER: 3","time":"2020-04-13T13:17:50+10:00"}
 ```

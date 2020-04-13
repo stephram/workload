@@ -31,7 +31,7 @@ func TestCreateSendMessageIinput(t *testing.T) {
 				log.WithError(jsonErr).Errorf("failed to unmarshal file to map: %s", filename)
 				return
 			}
-			smi, err := createSendMessageInput(data, "888", "999", "aaa", seqNo)
+			smi, err := createSendMessageInput(data, "888", "999", "aaa", seqNo, "https://sqs.queue.somewhere")
 			assert.Nil(t, err)
 			assert.NotNil(t, smi)
 		}
