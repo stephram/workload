@@ -69,6 +69,10 @@ func main() {
 
 	storeNumbers := *storeIDs
 	messageTmpls := *messageTemplates
+
+	if *numberOfWorkers > *numberOfMessages {
+		*numberOfWorkers = *numberOfMessages
+	}
 	wDir, _ = os.Getwd()
 
 	sess, serr := session.NewSessionWithOptions(session.Options{
@@ -87,11 +91,11 @@ func main() {
 	keyID := *keyStartID
 
 	fmt.Printf("%20s : %d\n", "number-of-messages", *numberOfMessages)
+	fmt.Printf("%20s : %d\n", "number-of-workers", *numberOfWorkers)
 	fmt.Printf("%20s : (%d) %v\n", "message-templates", len(*messageTemplates), *messageTemplates)
 	fmt.Printf("%20s : (%d) %v\n", "store-numbers", len(storeNumbers), storeNumbers)
 	fmt.Printf("%20s : %d\n", "key-start-id", keyID)
 	fmt.Printf("%20s : %s\n", "queue-url", (*queueUrl).String())
-	fmt.Printf("%20s : %d\n", "number-of-workers", *numberOfWorkers)
 
 	fmt.Print("Press 'Enter' to continue...")
 	bufio.NewReader(os.Stdin).ReadBytes('\n')
