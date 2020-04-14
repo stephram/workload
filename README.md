@@ -117,4 +117,33 @@ Press 'Enter' to continue...
 {"level":"info","msg":"sent MessageId: 2ba7f5fc-7b89-4e56-9cfe-9faf510519bd, MessageHeader: 2264b888-0f77-4706-9730-23051179232b, STORE_REF: A399, TRS_KEY: 333009, SEQUENCE_NUMBER: 10","time":"2020-04-13T14:58:51+10:00"}
 {"level":"info","msg":"sent MessageId: e5b10782-a67b-467b-a91d-d5ff9985d3ce, MessageHeader: 240f876c-7b27-4deb-9734-55287381dd0f, STORE_REF: A301, TRS_KEY: 333007, SEQUENCE_NUMBER: 8","time":"2020-04-13T14:58:51+10:00"}
 {"level":"info","msg":"sent MessageId: b3300ed6-01de-4786-b34c-b400c07e8185, MessageHeader: 65370761-a978-49b1-bc4d-6da8610587dd, STORE_REF: A301, TRS_KEY: 333000, SEQUENCE_NUMBER: 1","time":"2020-04-13T14:58:51+10:00"}
-{"level":"info","msg":"sent MessageId: 62a79112-4510-43a3-9fce-070a0d0a798e, MessageHeader: f2fd7416-8dcf-4b09-ac2e-bc70292a446c, STORE_REF: A399, TRS_KEY: 333001, SEQUENCE_NUMBER: 2","time":"2020-04-13T14:58:51+10:00"}```
+{"level":"info","msg":"sent MessageId: 62a79112-4510-43a3-9fce-070a0d0a798e, MessageHeader: f2fd7416-8dcf-4b09-ac2e-bc70292a446c, STORE_REF: A399, TRS_KEY: 333001, SEQUENCE_NUMBER: 2","time":"2020-04-13T14:58:51+10:00"}
+```
+
+### Caution
+
+Running with more than 100 workers will almost certainly cause the application to fail with a 'too many open files' error.
+The main reason for this is the number of HTTP connections that are concurrently open.
+
+### Performance
+
+On a MacBook Pro 3.5 GHz Dual-Core Intel Core i7 running Catalina, expect 500 tps when using 100 workers. 
+
+Example:
+
+```
+$ ./messages -w 100 -n 10000
+  number-of-messages : 10000
+   number-of-workers : 100
+   message-templates : (3) [test-data/sales-messages/1808712-body.json test-data/sales-messages/1808713-body.json test-data/sales-messages/1808714-body.json]
+       store-numbers : (2) [A399 A301]
+        key-start-id : 333000
+           queue-url : https://sqs.ap-southeast-2.amazonaws.com/712510509017/api-dev-s2c-inbound
+Press 'Enter' to continue...
+{"level":"info","msg":"Creating worker 100 tasks","time":"2020-04-14T18:35:42+10:00"}
+{"level":"info","msg":"Send 10000 messages","time":"2020-04-14T18:35:42+10:00"}
+{"level":"info","msg":"Waiting for output","time":"2020-04-14T18:35:42+10:00"}
+...
+{"level":"info","msg":"Received 10000 messages","time":"2020-04-14T18:29:45+10:00"}
+{"level":"info","msg":"Waited 19.785022036s","time":"2020-04-14T18:29:45+10:00"}
+```

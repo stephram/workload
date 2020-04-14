@@ -12,6 +12,7 @@ import (
 	"reflect"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 	"workload/internal/utils"
 
@@ -28,11 +29,9 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// type SalesRecord struct {
-// }
-
 type messageInfo struct {
 	Filename    string
+	Data        map[string]interface{}
 	StoreNumber string
 	KeyID       int
 	SeqNum      int
@@ -100,28 +99,75 @@ func main() {
 	fmt.Print("Press 'Enter' to continue...")
 	bufio.NewReader(os.Stdin).ReadBytes('\n') // nolint
 
-	taskInp := make(chan messageInfo, 20)
-	taskOut := make(chan string, 20)
+	taskInp := make(chan messageInfo, 50)
+	taskOut := make(chan string, 50)
+
+	waitGroup := sync.WaitGroup{}
+	waitGroup.Add(1)
 
 	log.Infof("Creating worker %d tasks", *numberOfWorkers)
 	go createWorkerTasks(taskInp, taskOut, *numberOfWorkers)
 
-	log.Infof("Send %d messages", *numberOfMessages)
-	go sendMessageTasks(messageTmpls, storeNumbers, keyID, svc, taskInp)
+	go waitForTasks(*numberOfMessages, taskOut, &waitGroup)
 
-	// Wait for all of the routines to finish.
-	log.Infof("Waiting for output")
-	for msgCount := 0; msgCount < *numberOfMessages; msgCount++ {
-		s := <-taskOut
-		log.Infof("%s", s)
-	}
+	start := time.Now()
+
+	log.Infof("Send %d messages", *numberOfMessages)
+	go sendMessageTasks(messageTmpls, storeNumbers, keyID, svc, taskInp, taskOut)
+
+	waitGroup.Wait()
+	log.Infof("Waited %s", time.Since(start))
 }
 
-func sendMessageTasks(messageTmpls []string, storeNumbers []string, keyID int, svc *sqs.SQS, taskInp chan<- messageInfo) {
+func waitForTasks(numberOfMessages int, taskOut <-chan string, waitGroup *sync.WaitGroup) {
+	// Wait for all of the routines to finish.
+	log.Infof("Waiting for output")
+	for msgCount := 1; msgCount < numberOfMessages; msgCount++ {
+		s := <-taskOut
+		log.Infof("%.8d : %s", msgCount, s)
+	}
+	log.Infof("Received %d messages", numberOfMessages)
+	waitGroup.Done()
+}
+
+func sendMessageTasks(messageTmpls []string, storeNumbers []string, keyID int, svc *sqs.SQS, taskInp chan<- messageInfo, taskOut chan<- string) {
 	for seqNum := 1; seqNum <= *numberOfMessages; seqNum++ {
+		// Read JSON template.
+		filename := wDir + string(filepath.Separator) + strings.TrimSpace(utils.SelectRandomString(messageTmpls))
+
+		file, fileErr := os.Open(filename)
+		if fileErr != nil {
+			log.WithError(fileErr).Panicf("Failed to open file: %s", filename)
+			// taskOut <- fmt.Sprintf("%s. Failed to open file: %s", errors.Unwrap(fileErr).Error(), filename)
+			// return
+		}
+		// defer file.Close()
+
+		salesFile, fileErr := ioutil.ReadAll(file)
+		if fileErr != nil {
+			log.WithError(fileErr).Panicf("Failed to read file: %s", filename)
+			// taskOut <- fmt.Sprintf("%s. Failed to read file: %s from %s", errors.Unwrap(fileErr).Error(), filename, wDir)
+			// return
+		}
+
+		fileErr = file.Close()
+		if fileErr != nil {
+			log.WithError(fileErr).Panicf("Failed to close file: %s", filename)
+			// taskOut <- fmt.Sprintf("%s. Failed to close file: %s", errors.Unwrap(fileErr).Error(), filename)
+			// return
+		}
+		// log.Infof("close file: %s", filename)
+
+		var salesMap map[string]interface{}
+		jsonErr := json.Unmarshal([]byte(salesFile), &salesMap)
+		if jsonErr != nil {
+			taskOut <- fmt.Sprintf("%s. Failed to unmarshal file to map: %s", errors.Unwrap(jsonErr).Error(), filename)
+			return
+		}
+
 		mi := &messageInfo{
-			Filename:    utils.SelectRandomString(messageTmpls),
 			StoreNumber: utils.SelectRandomString(storeNumbers),
+			Data:        salesMap,
 			SeqNum:      seqNum,
 			KeyID:       keyID,
 			Mq:          svc,
@@ -131,41 +177,29 @@ func sendMessageTasks(messageTmpls []string, storeNumbers []string, keyID int, s
 	}
 }
 
-func sendMessagesTask(taskInp <-chan messageInfo, taskOut chan<- string) {
-	for {
-		mi := <-taskInp
-		sendMessageTask(mi.Filename, mi.StoreNumber, mi.KeyID, mi.SeqNum, mi.Mq, taskOut)
+func createWorkerTasks(taskInp <-chan messageInfo, taskOut chan<- string, taskCount int) {
+	for i := 0; i < taskCount; i++ {
+		go func() {
+			for {
+				sendMessageTask(<-taskInp, taskOut)
+			}
+		}()
 	}
 }
 
-func sendMessageTask(filename string, storeNumber string, keyID int, seqNum int, svc *sqs.SQS, taskOut chan<- string) {
-	// Read JSON template.
-	filename = wDir + string(filepath.Separator) + strings.TrimSpace(filename)
-	salesFile, fileErr := ioutil.ReadFile(filename)
-	if fileErr != nil {
-		taskOut <- fmt.Sprintf("%s. Failed to read file: %s from %s", errors.Unwrap(fileErr).Error(), filename, wDir)
-		return
-	}
-
-	var salesMap map[string]interface{}
-	jsonErr := json.Unmarshal([]byte(salesFile), &salesMap)
-	if jsonErr != nil {
-		taskOut <- fmt.Sprintf("%s. Failed to unmarshal file to map: %s", errors.Unwrap(jsonErr).Error(), filename)
-		return
-	}
-
+func sendMessageTask(mi messageInfo, taskOut chan<- string) {
 	// Data setup.
-	trsKey := strconv.FormatInt(int64(keyID), 10)
+	trsKey := strconv.FormatInt(int64(mi.KeyID), 10)
 	messageHeader := uuid.New().String()
 
-	sendMessageInput, cmErr := createSendMessageInput(salesMap, storeNumber, trsKey, messageHeader, seqNum, (*queueUrl).String())
+	sendMessageInput, cmErr := createSendMessageInput(mi.Data, mi.StoreNumber, trsKey, messageHeader, mi.SeqNum, (*queueUrl).String())
 	if cmErr != nil {
-		taskOut <- fmt.Sprintf("%s. Failed to Create Message with file: %s", cmErr.Error(), filename)
+		taskOut <- fmt.Sprintf("%s. Failed to Create Message from map", cmErr.Error())
 		return
 	}
-	sendMessageOutput, smErr := sendMessage(svc, sendMessageInput)
+	sendMessageOutput, smErr := sendMessage(mi.Mq, sendMessageInput)
 	if smErr != nil {
-		taskOut <- fmt.Sprintf("%s. Failed to send message from file: %s", smErr.Error(), filename)
+		taskOut <- fmt.Sprintf("%s. Failed to send message from map", smErr.Error())
 		return
 	}
 	taskOut <- fmt.Sprintf("sent MessageId: %s, MessageHeader: %s, STORE_REF: %s, TRS_KEY: %s, SEQUENCE_NUMBER: %s",
@@ -174,12 +208,6 @@ func sendMessageTask(filename string, storeNumber string, keyID int, seqNum int,
 		*sendMessageInput.MessageAttributes["STORE_REF"].StringValue,
 		*sendMessageInput.MessageAttributes["KEY_ID"].StringValue,
 		*sendMessageInput.MessageAttributes["SEQUENCE_NUMBER"].StringValue)
-}
-
-func createWorkerTasks(taskInp <-chan messageInfo, taskOut chan<- string, taskCount int) {
-	for i := 0; i < taskCount; i++ {
-		go sendMessagesTask(taskInp, taskOut)
-	}
 }
 
 func createSendMessageInput(salesMap map[string]interface{}, storeNumber, trsKey, messageHeader string, seqNum int, queueURL string) (*sqs.SendMessageInput, error) {
@@ -221,7 +249,7 @@ func createSendMessageInput(salesMap map[string]interface{}, storeNumber, trsKey
 func sendMessage(sqsClient *sqs.SQS, sendMessageInput *sqs.SendMessageInput) (*sqs.SendMessageOutput, error) {
 	sendMessageOutput, err := sqsClient.SendMessage(sendMessageInput)
 	if err != nil {
-		log.WithError(err).Errorf("failed to send Message: %v", sendMessageInput)
+		log.WithError(err).Errorf("failed to send Message: ")
 		return nil, err
 	}
 	return sendMessageOutput, nil
