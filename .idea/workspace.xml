@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="1f7f73df-34c0-4bc4-ba0a-701fb11a97ee" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmd/message_generator/messages.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/message_generator/messages.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -14,8 +13,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Go Application" />
         <option value="Go File" />
+        <option value="Go Application" />
       </list>
     </option>
   </component>
@@ -36,7 +35,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="DefaultGoTemplateProperty" value="Go File" />
+    <property name="DefaultGoTemplateProperty" value="Go Application" />
     <property name="GO_FMT" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -144,7 +143,8 @@
     <MESSAGE value="Add test data with README." />
     <MESSAGE value="Added test." />
     <MESSAGE value="Achieve 410 TPS into dev SQS queue." />
-    <option name="LAST_COMMIT_MESSAGE" value="Achieve 410 TPS into dev SQS queue." />
+    <MESSAGE value="- Added an execution timer.&#10;- Added WaitGroup for synchronisation.&#10;- Rationalised file usage.&#10;- Updated README.md&#10;- Achieved 500 tps with 100 workers." />
+    <option name="LAST_COMMIT_MESSAGE" value="- Added an execution timer.&#10;- Added WaitGroup for synchronisation.&#10;- Rationalised file usage.&#10;- Updated README.md&#10;- Achieved 500 tps with 100 workers." />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -181,10 +181,10 @@
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
     <state x="-1199" y="333" key="#xdebugger.evaluate/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1585788008985" />
-    <state x="-1545" y="-187" key="CommitChangelistDialog2" timestamp="1586271016182">
+    <state x="-1545" y="-187" key="CommitChangelistDialog2" timestamp="1586853578725">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
-    <state x="-1545" y="-187" key="CommitChangelistDialog2/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586271016182" />
+    <state x="-1545" y="-187" key="CommitChangelistDialog2/0.23.1680.1027/-3008.-619.3008.1669@-3008.-619.3008.1669" timestamp="1586853578725" />
     <state width="681" height="466" key="DebuggerActiveHint" timestamp="1586678346932">
       <screen x="-3008" y="-619" width="3008" height="1669" />
     </state>
@@ -271,7 +271,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/cmd/message_generator/messages.go</url>
-          <line>140</line>
+          <line>143</line>
           <option name="timeStamp" value="84" />
         </line-breakpoint>
       </breakpoints>

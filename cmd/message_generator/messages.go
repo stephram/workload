@@ -110,13 +110,16 @@ func main() {
 
 	go waitForTasks(*numberOfMessages, taskOut, &waitGroup)
 
-	start := time.Now()
+	defer stopWatch(time.Now(), "Waited %s")
 
 	log.Infof("Send %d messages", *numberOfMessages)
 	go sendMessageTasks(messageTmpls, storeNumbers, keyID, svc, taskInp, taskOut)
 
 	waitGroup.Wait()
-	log.Infof("Waited %s", time.Since(start))
+}
+
+func stopWatch(start time.Time, message string) {
+	log.Infof(message, time.Since(start))
 }
 
 func waitForTasks(numberOfMessages int, taskOut <-chan string, waitGroup *sync.WaitGroup) {
