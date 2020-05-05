@@ -295,6 +295,9 @@ func updateSale(trsKey string, storeRef string, messageHeader string, salesMap m
 	updateTrsKeyFields(trsKey, salesMap)
 }
 
+// TODO This is a shocker of a function, due to complicated reflection.
+//  It needs refactoring and comments to explain what it's doing.
+
 func updateTrsKeyFields(trsKey string, salesMap map[string]interface{}) {
 	v := reflect.ValueOf(salesMap["TableReference"])
 	if v.Kind() != reflect.Map {
