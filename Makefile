@@ -91,17 +91,3 @@ test:
 	@echo "Tests complete"
 	go tool cover -html=coverage.out -o ./coverage.html
 	@echo "Coverage report written to coverage.html"
-
-run:
-	@find $(HOME) -name [aA-zZ]*.wav -exec $(BUILD_FOLDER)/$(APP_NAME) {} \;
-
-runJSON:
-	@find $(HOME) -name [aA-zZ]*.wav -exec $(BUILD_FOLDER)/$(APP_NAME) {} \;
-
-runTEXT:
-	@find $(HOME) -name [aA-zZ]*.wav -exec $(BUILD_FOLDER)/$(APP_NAME) -h -ofmt=text {} \;
-
-watch:
-	@yolo -i . -e vendor -e build -c $(run)
-
-

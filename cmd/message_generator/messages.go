@@ -43,7 +43,7 @@ var (
 	numberOfMessages = kingpin.Flag("number-of-messages", "Number of messages to send").Default(
 		"5").Short('n').Int()
 	queueUrl = kingpin.Flag("queue-url", "URL of the SQS queue").Default(
-		"https://sqs.ap-southeast-2.amazonaws.com/712510509017/api-dev-s2c-inbound").Short('q').URL()
+		"https://sqs.ap-southeast-2.amazonaws.com/<aws-account-id>/<queue-name>").Short('q').URL()
 	messageTemplates = kingpin.Flag("message-template", "Filenames containing payloads to use as templates").Short('t').Default(
 		"test-data/sales-messages/1808712-body.json",
 		"test-data/sales-messages/1808713-body.json",
@@ -53,7 +53,8 @@ var (
 	keyStartID = kingpin.Flag("key-start-id", "Reference key start index").Short('k').Short('k').Default(
 		"333000").Int()
 	numberOfWorkers = kingpin.Flag("number-of-workers", "Number of workers").Short('w').Default("100").Int()
-	awsProfile      = kingpin.Flag("profile", "AWS profile name").Short('p').Default("api-dev").String()
+	awsProfile      = kingpin.Flag("profile", "AWS profile name").Short('p').Default("<aws-profile-name>").String()
+	dryRun          = kingpin.Flag("dry-run", "Don't send to SQS").Default("false").Short('d').Bool()
 	wDir            string
 )
 
@@ -95,6 +96,7 @@ func main() {
 	fmt.Printf("%20s : (%d) %v\n", "store-numbers", len(storeNumbers), storeNumbers)
 	fmt.Printf("%20s : %d\n", "key-start-id", keyID)
 	fmt.Printf("%20s : %s\n", "queue-url", (*queueUrl).String())
+	fmt.Printf("%20s : %t\n", "dry-run", *dryRun)
 
 	fmt.Print("Press 'Enter' to continue...")
 	bufio.NewReader(os.Stdin).ReadBytes('\n') // nolint
@@ -106,14 +108,18 @@ func main() {
 	waitGroup.Add(1)
 
 	log.Infof("Creating worker %d tasks", *numberOfWorkers)
-	go createWorkerTasks(taskInp, taskOut, *numberOfWorkers)
+	createWorkerTasks(taskInp, taskOut, *numberOfWorkers)
+	log.Infof("Created %d worker tasks", *numberOfWorkers)
+
+	fmt.Print("Press 'Enter' to continue...")
+	bufio.NewReader(os.Stdin).ReadBytes('\n') // nolint
 
 	go waitForTasks(*numberOfMessages, taskOut, &waitGroup)
 
 	defer stopWatch(time.Now(), "Waited %s")
 
 	log.Infof("Send %d messages", *numberOfMessages)
-	go sendMessageTasks(messageTmpls, storeNumbers, keyID, svc, taskInp, taskOut)
+	go sendMessageTasks(messageTmpls, storeNumbers, keyID, svc, taskInp, taskOut, !(*dryRun))
 
 	waitGroup.Wait()
 }
@@ -125,47 +131,64 @@ func stopWatch(start time.Time, message string) {
 func waitForTasks(numberOfMessages int, taskOut <-chan string, waitGroup *sync.WaitGroup) {
 	// Wait for all of the routines to finish.
 	log.Infof("Waiting for output")
-	for msgCount := 1; msgCount < numberOfMessages; msgCount++ {
+	for msgCount := 0; msgCount < numberOfMessages; msgCount++ {
 		s := <-taskOut
-		log.Infof("%.8d : %s", msgCount, s)
+		log.Infof("%.8d : %s", msgCount+1, s)
 	}
-	log.Infof("Received %d messages", numberOfMessages)
+	log.Infof("Generated %d messages", numberOfMessages)
 	waitGroup.Done()
 }
 
-func sendMessageTasks(messageTmpls []string, storeNumbers []string, keyID int, svc *sqs.SQS, taskInp chan<- messageInfo, taskOut chan<- string) {
+func sendMessageTasks(messageTmpls []string, storeNumbers []string, keyID int, svc *sqs.SQS,
+	taskInp chan<- messageInfo, taskOut chan<- string, outputToChan bool) {
+
 	for seqNum := 1; seqNum <= *numberOfMessages; seqNum++ {
 		// Read JSON template.
 		filename := wDir + string(filepath.Separator) + strings.TrimSpace(utils.SelectRandomString(messageTmpls))
 
 		file, fileErr := os.Open(filename)
 		if fileErr != nil {
-			log.WithError(fileErr).Panicf("Failed to open file: %s", filename)
-			// taskOut <- fmt.Sprintf("%s. Failed to open file: %s", errors.Unwrap(fileErr).Error(), filename)
-			// return
+			errMsg := fmt.Sprintf("%s : failed to open file: %s", errors.Unwrap(fileErr).Error(), filename)
+			if !outputToChan {
+				log.Errorf(errMsg)
+				continue
+			}
+			taskOut <- errMsg
+			continue
 		}
-		// defer file.Close()
 
 		salesFile, fileErr := ioutil.ReadAll(file)
 		if fileErr != nil {
-			log.WithError(fileErr).Panicf("Failed to read file: %s", filename)
-			// taskOut <- fmt.Sprintf("%s. Failed to read file: %s from %s", errors.Unwrap(fileErr).Error(), filename, wDir)
-			// return
+			errMsg := fmt.Sprintf("%s : failed to read file: %s", errors.Unwrap(fileErr).Error(), filename)
+			if !outputToChan {
+				log.Errorf(errMsg)
+				continue
+			}
+			taskOut <- errMsg
+			continue
 		}
 
 		fileErr = file.Close()
 		if fileErr != nil {
-			log.WithError(fileErr).Panicf("Failed to close file: %s", filename)
-			// taskOut <- fmt.Sprintf("%s. Failed to close file: %s", errors.Unwrap(fileErr).Error(), filename)
-			// return
+			errMsg := fmt.Sprintf("%s : failed to close file: %s", errors.Unwrap(fileErr).Error(), filename)
+			if !outputToChan {
+				log.Errorf(errMsg)
+				continue
+			}
+			taskOut <- errMsg
+			continue
 		}
-		// log.Infof("close file: %s", filename)
 
 		var salesMap map[string]interface{}
 		jsonErr := json.Unmarshal([]byte(salesFile), &salesMap)
 		if jsonErr != nil {
-			taskOut <- fmt.Sprintf("%s. Failed to unmarshal file to map: %s", errors.Unwrap(jsonErr).Error(), filename)
-			return
+			errMsg := fmt.Sprintf("%s : failed to unmarshal file: %s", errors.Unwrap(jsonErr).Error(), filename)
+			if !outputToChan {
+				log.Errorf(errMsg)
+				continue
+			}
+			taskOut <- errMsg
+			continue
 		}
 
 		mi := &messageInfo{
@@ -175,8 +198,14 @@ func sendMessageTasks(messageTmpls []string, storeNumbers []string, keyID int, s
 			KeyID:       keyID,
 			Mq:          svc,
 		}
-		taskInp <- *mi
 		keyID++
+
+		if !outputToChan {
+			taskOut <- fmt.Sprintf("sent STORE_REF: %s, TRS_KEY: %d, SEQUENCE_NUMBER: %d",
+				mi.StoreNumber, mi.KeyID, mi.SeqNum)
+			continue
+		}
+		taskInp <- *mi
 	}
 }
 
@@ -265,6 +294,9 @@ func updateSale(trsKey string, storeRef string, messageHeader string, salesMap m
 
 	updateTrsKeyFields(trsKey, salesMap)
 }
+
+// TODO This is a shocker of a function, due to complicated reflection.
+//  It needs refactoring and comments to explain what it's doing.
 
 func updateTrsKeyFields(trsKey string, salesMap map[string]interface{}) {
 	v := reflect.ValueOf(salesMap["TableReference"])

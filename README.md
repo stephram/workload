@@ -2,7 +2,14 @@
 
 ### messages
 
-Command line utility for sending messages to the S2C Input Queue.
+Command line utility for sending messages to the S2C Input Queue. Hoevever it can fairly 
+easily be modified for other SQS targets.
+
+#### Prerequisites
+
+Install a recent version of golang (1.14+) from https://golang.org/dl/
+Install 'make' if you don't already have it. If you're on Windows try using a package manager 
+such as https://chocolatey.org/
 
 #### Building
 
@@ -93,7 +100,7 @@ Flags:
                                Store numbers use
   -k, --key-start-id=333000    Reference key start index
   -w, --number-of-workers=100  Number of workers
-  -p, --profile="api-dev"      AWS profile name
+  -p, --profile="<profile>"    AWS profile name
 ```
 #### Running
 ```
@@ -103,7 +110,7 @@ $ ./messages -s A399 -s A301 -n 10 -t test-data/sales-messages/1808712-body.json
    message-templates : (2) [test-data/sales-messages/1808712-body.json test-data/sales-messages/1808713-body.json]
        store-numbers : (2) [A399 A301]
         key-start-id : 333000
-           queue-url : https://sqs.ap-southeast-2.amazonaws.com/712510509017/api-dev-s2c-inbound
+           queue-url : https://sqs.ap-southeast-2.amazonaws.com/<aws-account-id>/<queue-name>
 Press 'Enter' to continue...
 {"level":"info","msg":"Creating worker 10 tasks","time":"2020-04-13T14:58:51+10:00"}
 {"level":"info","msg":"Send 10 messages","time":"2020-04-13T14:58:51+10:00"}
@@ -138,7 +145,7 @@ $ ./messages -w 100 -n 10000
    message-templates : (3) [test-data/sales-messages/1808712-body.json test-data/sales-messages/1808713-body.json test-data/sales-messages/1808714-body.json]
        store-numbers : (2) [A399 A301]
         key-start-id : 333000
-           queue-url : https://sqs.ap-southeast-2.amazonaws.com/712510509017/api-dev-s2c-inbound
+           queue-url : https://sqs.ap-southeast-2.amazonaws.com/<aws-account-id>/<queue-name>
 Press 'Enter' to continue...
 {"level":"info","msg":"Creating worker 100 tasks","time":"2020-04-14T18:35:42+10:00"}
 {"level":"info","msg":"Send 10000 messages","time":"2020-04-14T18:35:42+10:00"}
