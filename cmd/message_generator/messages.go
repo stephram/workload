@@ -43,7 +43,7 @@ var (
 	numberOfMessages = kingpin.Flag("number-of-messages", "Number of messages to send").Default(
 		"5").Short('n').Int()
 	queueUrl = kingpin.Flag("queue-url", "URL of the SQS queue").Default(
-		"https://sqs.ap-southeast-2.amazonaws.com/712510509017/api-dev-s2c-inbound").Short('q').URL()
+		"https://sqs.ap-southeast-2.amazonaws.com/<aws-account-id>/<queue-name>").Short('q').URL()
 	messageTemplates = kingpin.Flag("message-template", "Filenames containing payloads to use as templates").Short('t').Default(
 		"test-data/sales-messages/1808712-body.json",
 		"test-data/sales-messages/1808713-body.json",
@@ -53,7 +53,7 @@ var (
 	keyStartID = kingpin.Flag("key-start-id", "Reference key start index").Short('k').Short('k').Default(
 		"333000").Int()
 	numberOfWorkers = kingpin.Flag("number-of-workers", "Number of workers").Short('w').Default("100").Int()
-	awsProfile      = kingpin.Flag("profile", "AWS profile name").Short('p').Default("api-dev").String()
+	awsProfile      = kingpin.Flag("profile", "AWS profile name").Short('p').Default("<aws-profile-name>").String()
 	dryRun          = kingpin.Flag("dry-run", "Don't send to SQS").Default("false").Short('d').Bool()
 	wDir            string
 )
